@@ -1,30 +1,23 @@
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/VideoMode.hpp>
-#include <iostream>
-
-constexpr float kScreenWidth = 1400;
-constexpr float kScreenHeight = 1000;
+#include "application.h"
+#include "font-enum.h"
 
 int main() {
-  std::cout << "Test" << std::endl;
-  sf::CircleShape circle(100);
+    Word word(UBUNTU_R);
+    word.setString("Word");
 
-  sf::RenderWindow window(sf::VideoMode(kScreenWidth, kScreenHeight), "Window");
-  while (window.isOpen()) {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) {
-        window.close();
-      }
+    TextInput input(UBUNTU_B);
+    input.setString("Input");
+
+    for (int i = 0; i < 10; i++) {
+        Word w = word;
+        w.setPosition(sf::Vector2f(rand() % Application::kScreenWidth,
+                                   rand() % Application::kScreenHeight));
+        Application::push(w);
     }
 
-    window.clear();
-    window.draw(circle);
+    Application::push(input);
 
-    window.display();
-  }
-  return 0;
+    Application::run();
+
+    return 0;
 }
