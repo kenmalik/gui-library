@@ -1,8 +1,9 @@
 #include "application.h"
+#include "gui-component.h"
 #include "text-input.h"
 
 std::vector<Word> Application::words;
-std::vector<TextInput> Application::inputs;
+std::vector<GuiComponent *> Application::components;
 
 void Application::run() {
     sf::CircleShape circle(100);
@@ -18,8 +19,8 @@ void Application::run() {
             for (Word &w : words) {
                 w.eventHandler(window, event);
             }
-            for (TextInput &i : inputs) {
-                i.eventHandler(window, event);
+            for (GuiComponent *&i : components) {
+                i->eventHandler(window, event);
             }
         }
 
@@ -27,22 +28,24 @@ void Application::run() {
             w.update();
         }
 
-        for (TextInput &i : inputs) {
-            i.update();
+        for (GuiComponent *&i : components) {
+            i->update();
         }
 
         window.clear();
         for (Word &w : words) {
             window.draw(w);
         }
-        for (TextInput &i : inputs) {
-            window.draw(i);
+        for (GuiComponent *&i : components) {
+            window.draw(*i);
         }
 
         window.display();
     }
 }
 
-void Application::push(const Word &word) { words.push_back(word); }
+void Application::push(GuiComponent *component) {
+    components.push_back(component);
+}
 
-void Application::push(const TextInput &input) { inputs.push_back(input); }
+void Application::push(const Word &word) { words.push_back(word); }

@@ -16,8 +16,7 @@ set(SOURCES
     src/states.cpp
     src/mouse-event.cpp
     src/text-input.cpp
-    src/snapshot.cpp
-)
+    src/snapshot.cpp)
 add_executable(Main ${SOURCES})
 
 target_include_directories(Main PRIVATE include)

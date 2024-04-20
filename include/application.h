@@ -7,6 +7,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
+#include "gui-component.h"
 #include "text-input.h"
 #include "word.h"
 #include <vector>
@@ -14,15 +15,15 @@
 class Application {
   public:
     static void run();
+    static void push(GuiComponent *component);
     static void push(const Word &word);
-    static void push(const TextInput &word);
 
     static constexpr int kScreenWidth = 1400;
     static constexpr int kScreenHeight = 1000;
 
   private:
+    static std::vector<GuiComponent *> components;
     static std::vector<Word> words;
-    static std::vector<TextInput> inputs;
 };
 
 #endif // !CS8_GUILIBRARY_APPLICATION_H
