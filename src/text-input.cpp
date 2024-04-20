@@ -43,3 +43,7 @@ void TextInput::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     window.draw(background);
     window.draw(text);
 }
+
+Snapshot &TextInput::getSnapshot() { return snapshot; }
+
+void TextInput::applySnapshot(const Snapshot &snapshot) {}
