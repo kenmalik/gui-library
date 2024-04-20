@@ -1,4 +1,5 @@
 #include "text-input.h"
+#include "keyboard-shortcuts.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 
 TextInput::TextInput() : TextInput(UBUNTU_R, {90, 30}) {}
@@ -24,6 +25,10 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
         this->enableState(CLICKED);
     } else {
         this->disableState(CLICKED);
+    }
+
+    if (KeyboardShortcuts::isUndo()) {
+        text.setString("Undo");
     }
 }
 
