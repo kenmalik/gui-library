@@ -14,6 +14,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <cstddef>
 #include <string>
 
 class TextInput : public State, public GuiComponent {
@@ -32,10 +33,18 @@ class TextInput : public State, public GuiComponent {
     void applySnapshot(const Snapshot &snapshot) override;
 
   private:
+    static constexpr unsigned int BACKSPACE = 8;
+    static constexpr unsigned int DEL = 127;
+    static constexpr unsigned int SPACE = 32;
+    static constexpr unsigned int TILDA = 126;
+
+    size_t cursorIndex;
     sf::Text label;
     sf::Text text;
     sf::RectangleShape background;
     Snapshot snapshot;
+
+    void handleTextInput(unsigned int unicode);
 };
 
 #endif // !CS8_GUILIBRARY_TEXTINPUT_H
