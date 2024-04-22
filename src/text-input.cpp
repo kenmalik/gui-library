@@ -5,23 +5,25 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-TextInput::TextInput() : TextInput(UBUNTU_R, {90, 30}) {}
+TextInput::TextInput() : TextInput(UBUNTU_R, {360, 30}) {}
 
 TextInput::TextInput(FontEnum font, sf::Vector2f size)
     : isCursorVisible(true), cursorIndex(0) {
+    text.setCharacterSize(size.y * .8);
     text.setFont(FontManager::getFont(font));
+
+    cursor.setFillColor(sf::Color::Red);
+    cursor.setSize({2, static_cast<float>(size.y * .8)});
 
     background.setSize(size);
     background.setOutlineThickness(2);
-    background.setOutlineColor(sf::Color::Green);
+    background.setOutlineColor(sf::Color::White);
     background.setFillColor(sf::Color::Cyan);
 }
 
 void TextInput::setString(const std::string &string) {
     text.setString(string);
     cursorIndex = text.getString().getSize();
-    cursor.setFillColor(sf::Color::Red);
-    cursor.setSize({2, text.getGlobalBounds().height});
     moveCursor();
 }
 
@@ -55,7 +57,7 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
     }
 
     if (KeyboardShortcuts::isUndo()) {
-        text.setString("Undo");
+        setString("");
     }
 }
 
@@ -111,7 +113,8 @@ void TextInput::applySnapshot(const Snapshot &snapshot) {}
 
 void TextInput::moveCursor() {
     cursor.setPosition(text.findCharacterPos(cursorIndex).x,
-                       text.getGlobalBounds().top - 2);
+                       background.getGlobalBounds().top +
+                           background.getGlobalBounds().height * .15);
     isCursorVisible = true;
     cursorTimer.restart();
 }

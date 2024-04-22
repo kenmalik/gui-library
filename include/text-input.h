@@ -20,7 +20,7 @@
 class TextInput : public State, public GuiComponent {
   public:
     TextInput();
-    TextInput(FontEnum font, sf::Vector2f size = {90, 30});
+    TextInput(FontEnum font, sf::Vector2f size = {360, 30});
 
     void setString(const std::string &string);
 
