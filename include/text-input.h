@@ -38,13 +38,22 @@ class TextInput : public State, public GuiComponent {
     static constexpr unsigned int SPACE = 32;
     static constexpr unsigned int TILDA = 126;
 
+    static constexpr unsigned int CURSOR_BLINK_ON = 450;
+    static constexpr unsigned int CURSOR_BLINK_OFF = 450;
+    sf::Clock cursorTimer;
+    bool isCursorVisible;
+
     size_t cursorIndex;
+    sf::RectangleShape cursor;
+
     sf::Text label;
     sf::Text text;
     sf::RectangleShape background;
+
     Snapshot snapshot;
 
     void handleTextInput(unsigned int unicode);
+    void moveCursor();
 };
 
 #endif // !CS8_GUILIBRARY_TEXTINPUT_H
