@@ -14,19 +14,31 @@ TextInput::TextInput() : TextInput(UBUNTU_R, {360, 30}) {}
 
 TextInput::TextInput(FontEnum font, sf::Vector2f size)
     : isCursorVisible(true), cursorIndex(0) {
-    text.setCharacterSize(size.y * .8);
-    text.setFont(FontManager::getFont(font));
+    label.setCharacterSize(size.y * .8);
+    label.setFont(FontManager::getFont(font));
+    label.setFillColor(sf::Color::White);
+    label.setString("Test");
 
     background.setSize(size);
     background.setOutlineThickness(2);
     background.setOutlineColor(ColorManager::getColor(DIMGREY));
+    background.setPosition(label.getGlobalBounds().left +
+                               label.getGlobalBounds().width + 10,
+                           label.getPosition().y);
 
-    cursor.setFillColor(sf::Color::Red);
+    text.setCharacterSize(size.y * .8);
+    text.setFont(FontManager::getFont(font));
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(background.getGlobalBounds().left,
+                     background.getGlobalBounds().top);
+
+    cursor.setFillColor(sf::Color::Black);
     cursor.setSize({2, size.y * .8f});
     moveCursor();
 }
 
 void TextInput::setPosition(sf::Vector2f position) {
+    label.setPosition(position);
     background.setPosition(position);
     text.setPosition(position);
     moveCursor();
@@ -96,7 +108,7 @@ void TextInput::update() {
     if (this->getState(HOVERED)) {
         background.setFillColor(sf::Color::Blue);
     } else {
-        background.setFillColor(ColorManager::getColor(SILVER));
+        background.setFillColor(sf::Color::White);
     }
 
     if (this->getState(CLICKED)) {
@@ -112,6 +124,7 @@ void TextInput::update() {
 }
 
 void TextInput::draw(sf::RenderTarget &window, sf::RenderStates states) const {
+    window.draw(label);
     window.draw(background);
     window.draw(text);
     if (isCursorVisible) {

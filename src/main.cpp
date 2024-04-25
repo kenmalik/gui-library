@@ -4,10 +4,10 @@
 #include "text-input.h"
 
 int main() {
-    auto input = new TextInput(UBUNTU_B);
+    auto input = new TextInput(UBUNTU_R);
     input->setBackgroundColor(ColorManager::getColor(SILVER));
-    input->setPosition(
-        {Application::kScreenWidth / 3.f, Application::kScreenHeight / 3.f});
+    // input->setPosition(
+    //     {Application::kScreenWidth / 3.f, Application::kScreenHeight / 3.f});
 
     Application::push(input);
 
