@@ -6,8 +6,6 @@ std::vector<Word> Application::words;
 std::vector<GuiComponent *> Application::components;
 
 void Application::run() {
-    sf::CircleShape circle(100);
-
     sf::RenderWindow window(sf::VideoMode(kScreenWidth, kScreenHeight),
                             "Window");
     while (window.isOpen()) {

@@ -1,9 +1,8 @@
 #ifndef CS8_GUILIBRARY_TEXTINPUT_H
 #define CS8_GUILIBRARY_TEXTINPUT_H
 
-#include "font-manager.h"
+#include "font-enum.h"
 #include "gui-component.h"
-#include "mouse-event.h"
 #include "snapshot.h"
 #include "states.h"
 
@@ -31,6 +30,9 @@ class TextInput : public State, public GuiComponent {
 
     Snapshot &getSnapshot() override;
     void applySnapshot(const Snapshot &snapshot) override;
+
+    void setBackgroundColor(const sf::Color &color);
+    void setPosition(sf::Vector2f position);
 
   private:
     static constexpr unsigned int BACKSPACE = 8;

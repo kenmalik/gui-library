@@ -1,5 +1,10 @@
 #include "text-input.h"
+#include "color-enum.h"
+#include "color-manager.h"
+#include "font-manager.h"
 #include "keyboard-shortcuts.h"
+#include "mouse-event.h"
+
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -12,13 +17,19 @@ TextInput::TextInput(FontEnum font, sf::Vector2f size)
     text.setCharacterSize(size.y * .8);
     text.setFont(FontManager::getFont(font));
 
-    cursor.setFillColor(sf::Color::Red);
-    cursor.setSize({2, static_cast<float>(size.y * .8)});
-
     background.setSize(size);
     background.setOutlineThickness(2);
-    background.setOutlineColor(sf::Color::White);
-    background.setFillColor(sf::Color::Cyan);
+    background.setOutlineColor(ColorManager::getColor(DIMGREY));
+
+    cursor.setFillColor(sf::Color::Red);
+    cursor.setSize({2, size.y * .8f});
+    moveCursor();
+}
+
+void TextInput::setPosition(sf::Vector2f position) {
+    background.setPosition(position);
+    text.setPosition(position);
+    moveCursor();
 }
 
 void TextInput::setString(const std::string &string) {
@@ -58,6 +69,7 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
 
     if (KeyboardShortcuts::isUndo()) {
         setString("");
+        setPosition({30, 30});
     }
 }
 
@@ -84,7 +96,7 @@ void TextInput::update() {
     if (this->getState(HOVERED)) {
         background.setFillColor(sf::Color::Blue);
     } else {
-        background.setFillColor(sf::Color::Cyan);
+        background.setFillColor(ColorManager::getColor(SILVER));
     }
 
     if (this->getState(CLICKED)) {
@@ -117,4 +129,8 @@ void TextInput::moveCursor() {
                            background.getGlobalBounds().height * .15);
     isCursorVisible = true;
     cursorTimer.restart();
+}
+
+void TextInput::setBackgroundColor(const sf::Color &color) {
+    background.setFillColor(color);
 }
