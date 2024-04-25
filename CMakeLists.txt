@@ -17,7 +17,9 @@ set(SOURCES
     src/mouse-event.cpp
     src/text-input.cpp
     src/snapshot.cpp
-    src/keyboard-shortcuts.cpp)
+    src/keyboard-shortcuts.cpp
+    src/color-manager.cpp
+)
 add_executable(Main ${SOURCES})
 
 target_include_directories(Main PRIVATE include)
