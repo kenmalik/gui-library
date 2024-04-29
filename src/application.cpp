@@ -9,7 +9,6 @@ std::vector<GuiComponent *> Application::components;
 void Application::run() {
     sf::RenderWindow window(sf::VideoMode(kScreenWidth, kScreenHeight),
                             "Window");
-    window.setKeyRepeatEnabled(false);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {

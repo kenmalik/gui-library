@@ -18,34 +18,26 @@ TextInput::TextInput(FontEnum font, sf::Vector2f size)
     label.setCharacterSize(size.y * .8);
     label.setFont(FontManager::getFont(font));
     label.setFillColor(sf::Color::White);
-    label.setString("Test");
 
     background.setSize(size);
     background.setOutlineThickness(2);
     background.setOutlineColor(ColorManager::getColor(DIMGREY));
-    background.setPosition(label.getGlobalBounds().left +
-                               label.getGlobalBounds().width + 10,
-                           label.getPosition().y);
 
     text.setCharacterSize(size.y * .8);
     text.setFont(FontManager::getFont(font));
     text.setFillColor(sf::Color::Black);
-    text.setPosition(background.getGlobalBounds().left +
-                         background.getOutlineThickness() * 2,
-                     background.getGlobalBounds().top);
 
     cursor.setFillColor(sf::Color::Black);
     cursor.setSize({2, size.y * .8f});
-    moveCursor();
+
+    moveTextBox();
 
     History::pushHistory({text.getString().toAnsiString(), this});
 }
 
 void TextInput::setPosition(sf::Vector2f position) {
     label.setPosition(position);
-    background.setPosition(position);
-    text.setPosition(position);
-    moveCursor();
+    moveTextBox();
 }
 
 void TextInput::setString(const std::string &string) {
@@ -146,7 +138,6 @@ Snapshot &TextInput::getSnapshot() { return snapshot; }
 
 void TextInput::applySnapshot(const Snapshot &snapshot) {
     setString(snapshot.getData());
-    std::cout << text.getString().toAnsiString() << std::endl;
 }
 
 void TextInput::moveCursor() {
@@ -159,6 +150,22 @@ void TextInput::moveCursor() {
     cursorTimer.restart();
 }
 
+void TextInput::moveTextBox() {
+    background.setPosition(label.getGlobalBounds().left +
+                               label.getGlobalBounds().width +
+                               (label.getString() == "" ? 0 : 10),
+                           label.getPosition().y);
+    text.setPosition(background.getGlobalBounds().left +
+                         background.getOutlineThickness() * 2,
+                     background.getGlobalBounds().top);
+    moveCursor();
+}
+
 void TextInput::setBackgroundColor(const sf::Color &color) {
     background.setFillColor(color);
+}
+
+void TextInput::setLabel(const std::string &string) {
+    label.setString(string);
+    moveTextBox();
 }

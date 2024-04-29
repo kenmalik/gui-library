@@ -22,6 +22,7 @@ class TextInput : public State, public GuiComponent {
     TextInput(FontEnum font, sf::Vector2f size = {360, 30});
 
     void setString(const std::string &string);
+    void setLabel(const std::string &string);
 
     void draw(sf::RenderTarget &window, sf::RenderStates states) const override;
 
@@ -56,6 +57,7 @@ class TextInput : public State, public GuiComponent {
 
     void handleTextInput(unsigned int unicode);
     void moveCursor();
+    void moveTextBox();
 };
 
 #endif // !CS8_GUILIBRARY_TEXTINPUT_H
