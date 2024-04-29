@@ -12,6 +12,8 @@ class MouseEvent {
                           const sf::RenderWindow &window);
     static bool isClicked(const sf::FloatRect &bounds,
                           const sf::RenderWindow &window);
+    static bool isClickedOff(const sf::FloatRect &bounds,
+                             const sf::RenderWindow &window);
 };
 
 #endif // !CS8_GUILIBRARY_MOUSEEVENT_H

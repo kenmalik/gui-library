@@ -10,3 +10,9 @@ bool MouseEvent::isClicked(const sf::FloatRect &bounds,
     return bounds.contains((sf::Vector2f)sf::Mouse::getPosition(window)) &&
            sf::Mouse::isButtonPressed(sf::Mouse::Left);
 }
+
+bool MouseEvent::isClickedOff(const sf::FloatRect &bounds,
+                              const sf::RenderWindow &window) {
+    return !bounds.contains((sf::Vector2f)sf::Mouse::getPosition(window)) &&
+           sf::Mouse::isButtonPressed(sf::Mouse::Left);
+}
