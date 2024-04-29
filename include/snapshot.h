@@ -5,6 +5,8 @@
 
 class Snapshot {
   public:
+    Snapshot();
+    Snapshot(std::string data);
     std::string getData() const;
     void setData(std::string data);
 

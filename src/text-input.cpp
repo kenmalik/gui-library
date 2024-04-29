@@ -2,8 +2,9 @@
 #include "color-enum.h"
 #include "color-manager.h"
 #include "font-manager.h"
-#include "keyboard-shortcuts.h"
+#include "history.h"
 #include "mouse-event.h"
+#include "state-enum.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Time.hpp>
@@ -13,7 +14,7 @@
 TextInput::TextInput() : TextInput(UBUNTU_R, {360, 30}) {}
 
 TextInput::TextInput(FontEnum font, sf::Vector2f size)
-    : isCursorVisible(true), cursorIndex(0) {
+    : isCursorVisible(false), cursorIndex(0) {
     label.setCharacterSize(size.y * .8);
     label.setFont(FontManager::getFont(font));
     label.setFillColor(sf::Color::White);
@@ -29,12 +30,15 @@ TextInput::TextInput(FontEnum font, sf::Vector2f size)
     text.setCharacterSize(size.y * .8);
     text.setFont(FontManager::getFont(font));
     text.setFillColor(sf::Color::Black);
-    text.setPosition(background.getGlobalBounds().left,
+    text.setPosition(background.getGlobalBounds().left +
+                         background.getOutlineThickness() * 2,
                      background.getGlobalBounds().top);
 
     cursor.setFillColor(sf::Color::Black);
     cursor.setSize({2, size.y * .8f});
     moveCursor();
+
+    History::pushHistory({text.getString().toAnsiString(), this});
 }
 
 void TextInput::setPosition(sf::Vector2f position) {
@@ -59,29 +63,34 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
 
     if (MouseEvent::isClicked(background.getGlobalBounds(), window)) {
         this->enableState(CLICKED);
+        this->enableState(FOCUSED);
     } else {
         this->disableState(CLICKED);
     }
 
-    if (event.type == sf::Event::TextEntered) {
-        handleTextInput(event.text.unicode);
+    if (MouseEvent::isClickedOff(background.getGlobalBounds(), window)) {
+        this->disableState(FOCUSED);
     }
 
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Left && cursorIndex > 0) {
-            cursorIndex--;
-            moveCursor();
+    if (getState(FOCUSED)) {
+        if (event.type == sf::Event::TextEntered &&
+            !sf::Keyboard::isKeyPressed(sf::Keyboard::RControl) &&
+            !sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+            handleTextInput(event.text.unicode);
+            History::pushHistory({text.getString().toAnsiString(), this});
         }
-        if (event.key.code == sf::Keyboard::Right &&
-            cursorIndex < text.getString().getSize()) {
-            cursorIndex++;
-            moveCursor();
-        }
-    }
 
-    if (KeyboardShortcuts::isUndo()) {
-        setString("");
-        setPosition({30, 30});
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Left && cursorIndex > 0) {
+                cursorIndex--;
+                moveCursor();
+            }
+            if (event.key.code == sf::Keyboard::Right &&
+                cursorIndex < text.getString().getSize()) {
+                cursorIndex++;
+                moveCursor();
+            }
+        }
     }
 }
 
@@ -106,7 +115,7 @@ void TextInput::handleTextInput(unsigned int unicode) {
 
 void TextInput::update() {
     if (this->getState(HOVERED)) {
-        background.setFillColor(sf::Color::Blue);
+        background.setFillColor(ColorManager::getColor(DIMGREY));
     } else {
         background.setFillColor(sf::Color::White);
     }
@@ -115,9 +124,10 @@ void TextInput::update() {
         background.setFillColor(sf::Color::Red);
     }
 
-    if (cursorTimer.getElapsedTime() >=
-        sf::milliseconds(isCursorVisible ? CURSOR_BLINK_ON
-                                         : CURSOR_BLINK_OFF)) {
+    if (this->getState(FOCUSED) &&
+        cursorTimer.getElapsedTime() >=
+            sf::milliseconds(isCursorVisible ? CURSOR_BLINK_ON
+                                             : CURSOR_BLINK_OFF)) {
         isCursorVisible = !isCursorVisible;
         cursorTimer.restart();
     }
@@ -127,19 +137,24 @@ void TextInput::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     window.draw(label);
     window.draw(background);
     window.draw(text);
-    if (isCursorVisible) {
+    if (this->getState(FOCUSED) && isCursorVisible) {
         window.draw(cursor);
     }
 }
 
 Snapshot &TextInput::getSnapshot() { return snapshot; }
 
-void TextInput::applySnapshot(const Snapshot &snapshot) {}
+void TextInput::applySnapshot(const Snapshot &snapshot) {
+    setString(snapshot.getData());
+    std::cout << text.getString().toAnsiString() << std::endl;
+}
 
 void TextInput::moveCursor() {
-    cursor.setPosition(text.findCharacterPos(cursorIndex).x,
-                       background.getGlobalBounds().top +
-                           background.getGlobalBounds().height * .15);
+    float xPos = text.getString() == "" ? background.getPosition().x +
+                                              background.getOutlineThickness()
+                                        : text.findCharacterPos(cursorIndex).x;
+    cursor.setPosition(xPos, background.getGlobalBounds().top +
+                                 background.getGlobalBounds().height * .15);
     isCursorVisible = true;
     cursorTimer.restart();
 }

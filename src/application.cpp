@@ -1,5 +1,6 @@
 #include "application.h"
 #include "gui-component.h"
+#include "history.h"
 #include "text-input.h"
 
 std::vector<Word> Application::words;
@@ -8,6 +9,7 @@ std::vector<GuiComponent *> Application::components;
 void Application::run() {
     sf::RenderWindow window(sf::VideoMode(kScreenWidth, kScreenHeight),
                             "Window");
+    window.setKeyRepeatEnabled(false);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -20,6 +22,7 @@ void Application::run() {
             for (GuiComponent *&i : components) {
                 i->eventHandler(window, event);
             }
+            History::eventHandler(window, event);
         }
 
         for (Word &w : words) {

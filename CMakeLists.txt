@@ -19,6 +19,7 @@ set(SOURCES
     src/snapshot.cpp
     src/keyboard-shortcuts.cpp
     src/color-manager.cpp
+    src/history.cpp
 )
 add_executable(Main ${SOURCES})
 
