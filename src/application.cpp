@@ -1,13 +1,12 @@
 #include "application.h"
 #include "gui-component.h"
 #include "history.h"
-#include "text-input.h"
 
 std::vector<Word> Application::words;
 std::vector<GuiComponent *> Application::components;
 
 void Application::run() {
-    sf::RenderWindow window(sf::VideoMode(kScreenWidth, kScreenHeight),
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),
                             "Window");
     while (window.isOpen()) {
         sf::Event event;
@@ -15,17 +14,10 @@ void Application::run() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            for (Word &w : words) {
-                w.eventHandler(window, event);
-            }
             for (GuiComponent *&i : components) {
                 i->eventHandler(window, event);
             }
             History::eventHandler(window, event);
-        }
-
-        for (Word &w : words) {
-            w.update();
         }
 
         for (GuiComponent *&i : components) {
@@ -33,9 +25,6 @@ void Application::run() {
         }
 
         window.clear();
-        for (Word &w : words) {
-            window.draw(w);
-        }
         for (GuiComponent *&i : components) {
             window.draw(*i);
         }
@@ -47,5 +36,3 @@ void Application::run() {
 void Application::push(GuiComponent *component) {
     components.push_back(component);
 }
-
-void Application::push(const Word &word) { words.push_back(word); }

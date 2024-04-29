@@ -8,7 +8,6 @@
 #include <SFML/Window/VideoMode.hpp>
 
 #include "gui-component.h"
-#include "text-input.h"
 #include "word.h"
 #include <vector>
 
@@ -18,8 +17,8 @@ class Application {
     static void push(GuiComponent *component);
     static void push(const Word &word);
 
-    static constexpr int kScreenWidth = 1400;
-    static constexpr int kScreenHeight = 1000;
+    static constexpr int SCREEN_WIDTH = 1200;
+    static constexpr int SCREEN_HEIGHT = 800;
 
   private:
     static std::vector<GuiComponent *> components;
