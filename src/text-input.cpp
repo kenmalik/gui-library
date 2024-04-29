@@ -9,7 +9,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include <iostream>
 
 TextInput::TextInput() : TextInput(UBUNTU_R, {360, 30}) {}
 
@@ -81,6 +80,9 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
                 cursorIndex < text.getString().getSize()) {
                 cursorIndex++;
                 moveCursor();
+            }
+            if (event.key.code == sf::Keyboard::Enter) {
+                submit();
             }
         }
     }
@@ -168,4 +170,14 @@ void TextInput::setBackgroundColor(const sf::Color &color) {
 void TextInput::setLabel(const std::string &string) {
     label.setString(string);
     moveTextBox();
+}
+
+void TextInput::submit() { submitBehavior(); }
+
+const sf::String &TextInput::getString() const { return text.getString(); }
+
+const sf::String &TextInput::getLabel() const { return label.getString(); }
+
+void TextInput::setSubmitBehavior(std::function<void()> submitBehavior) {
+    this->submitBehavior = submitBehavior;
 }

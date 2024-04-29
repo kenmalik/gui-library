@@ -9,6 +9,8 @@ int main() {
     input->setPosition(
         {Application::kScreenWidth / 3.f, Application::kScreenHeight / 3.f});
     input->setLabel("Label:");
+    input->setSubmitBehavior(
+        [&input]() { input->setLabel(input->getString()); });
 
     Application::push(input);
 

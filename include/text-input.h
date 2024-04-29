@@ -5,6 +5,7 @@
 #include "gui-component.h"
 #include "snapshot.h"
 #include "states.h"
+#include "submittable.h"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -14,14 +15,18 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <cstddef>
+#include <functional>
 #include <string>
 
-class TextInput : public State, public GuiComponent {
+class TextInput : public State, public GuiComponent, public Submitable {
   public:
     TextInput();
     TextInput(FontEnum font, sf::Vector2f size = {360, 30});
 
+    const sf::String &getString() const;
     void setString(const std::string &string);
+
+    const sf::String &getLabel() const;
     void setLabel(const std::string &string);
 
     void draw(sf::RenderTarget &window, sf::RenderStates states) const override;
@@ -34,6 +39,7 @@ class TextInput : public State, public GuiComponent {
 
     void setBackgroundColor(const sf::Color &color);
     void setPosition(sf::Vector2f position);
+    void setSubmitBehavior(std::function<void()> submitBehavior);
 
   private:
     static constexpr unsigned int BACKSPACE = 8;
@@ -58,6 +64,9 @@ class TextInput : public State, public GuiComponent {
     void handleTextInput(unsigned int unicode);
     void moveCursor();
     void moveTextBox();
+
+    void submit() override;
+    std::function<void()> submitBehavior;
 };
 
 #endif // !CS8_GUILIBRARY_TEXTINPUT_H
