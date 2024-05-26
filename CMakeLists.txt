@@ -23,13 +23,13 @@ set(SOURCES
     src/keyboard-shortcuts.cpp
     src/color-manager.cpp
     src/history.cpp)
-add_library(GUI_Library ${SOURCES})
+add_library(gui-library ${SOURCES})
 
 add_subdirectory(test)
 
-target_include_directories(GUI_Library PRIVATE include)
+target_include_directories(gui-library PRIVATE include)
 
-target_link_libraries(GUI_Library PUBLIC sfml-graphics sfml-window sfml-system
+target_link_libraries(gui-library PUBLIC sfml-graphics sfml-window sfml-system
                                          sfml-audio)
 
 find_package(
