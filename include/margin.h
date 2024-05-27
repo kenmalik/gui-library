@@ -16,7 +16,7 @@ class Margin : public GUIComponentDecorator {
     float marginLeft;
     float marginRight;
 
-    sf::FloatRect getGlobalBounds() const;
+    sf::FloatRect getGlobalBounds() const override;
 
   private:
     GuiComponent *component;

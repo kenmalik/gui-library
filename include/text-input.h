@@ -42,7 +42,7 @@ class TextInput : public State, public GuiComponent, public Submitable {
     void setPosition(sf::Vector2f position);
     void setSubmitBehavior(std::function<void()> submitBehavior);
 
-    sf::FloatRect getGlobalBounds() const;
+    sf::FloatRect getGlobalBounds() const override;
 
   private:
     static constexpr unsigned int BACKSPACE = 8;

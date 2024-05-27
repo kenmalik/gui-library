@@ -3,6 +3,7 @@
 #include "font-enum.h"
 #include "margin.h"
 #include "text-input.h"
+#include "word.h"
 #include <iostream>
 
 int main() {
@@ -24,15 +25,21 @@ int main() {
     std::cout << margin.getGlobalBounds().top + margin.getGlobalBounds().height
               << std::endl;
 
-    auto input2 = new TextInput(UBUNTU_R);
-    input2->setBackgroundColor(ColorManager::getColor(SILVER));
-    input2->setPosition(
-        {margin.getGlobalBounds().left,
-         margin.getGlobalBounds().top + margin.getGlobalBounds().height});
-    input2->setLabel("Label2:");
-    input2->setSubmitBehavior(
-        [&input2]() { input2->setLabel(input2->getString()); });
-    Application::push(input2);
+    // auto input2 = new TextInput(UBUNTU_R);
+    // input2->setBackgroundColor(ColorManager::getColor(SILVER));
+    // input2->setPosition(
+    //     {margin.getGlobalBounds().left,
+    //      margin.getGlobalBounds().top + margin.getGlobalBounds().height});
+    // input2->setLabel("Label2:");
+    // input2->setSubmitBehavior(
+    //     [&input2]() { input2->setLabel(input2->getString()); });
+    // Application::push(input2);
+    //
+    auto text = new Word();
+    text->setText("Hello there");
+    text->setIsHoverable(true);
+    text->addPadding(50);
+    Application::push(text);
 
     Application::run();
 
