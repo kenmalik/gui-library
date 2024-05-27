@@ -8,6 +8,7 @@
 #include "submittable.h"
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -40,6 +41,8 @@ class TextInput : public State, public GuiComponent, public Submitable {
     void setBackgroundColor(const sf::Color &color);
     void setPosition(sf::Vector2f position);
     void setSubmitBehavior(std::function<void()> submitBehavior);
+
+    sf::FloatRect getGlobalBounds() const;
 
   private:
     static constexpr unsigned int BACKSPACE = 8;

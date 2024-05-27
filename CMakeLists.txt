@@ -22,7 +22,10 @@ set(SOURCES
     src/snapshot.cpp
     src/keyboard-shortcuts.cpp
     src/color-manager.cpp
-    src/history.cpp)
+    src/history.cpp
+    src/gui-component-decorator.cpp
+    src/margin.cpp
+    )
 add_library(gui-library ${SOURCES})
 
 add_subdirectory(test)
