@@ -2,25 +2,23 @@
 #include "font-manager.h"
 #include "mouse-event.h"
 #include <SFML/Graphics/Text.hpp>
-#include <iostream>
 
 Word::Word() : Word(UBUNTU_R) {}
 
 Word::Word(FontEnum font) {
     text.setFont(FontManager::getFont(font));
     text.setFillColor(defaultTextColor);
+    background.setFillColor(defaultBackgroundColor);
 }
 
 void Word::eventHandler(sf::RenderWindow &window, sf::Event event) {
-    if (MouseEvent::isHovered(
-            getTransform().transformRect(text.getGlobalBounds()), window)) {
+    if (MouseEvent::isHovered(background.getGlobalBounds(), window)) {
         this->enableState(HOVERED);
     } else {
         this->disableState(HOVERED);
     }
 
-    if (MouseEvent::isClicked(
-            getTransform().transformRect(text.getGlobalBounds()), window)) {
+    if (MouseEvent::isClicked(background.getGlobalBounds(), window)) {
         this->enableState(CLICKED);
     } else {
         this->disableState(CLICKED);
@@ -29,7 +27,7 @@ void Word::eventHandler(sf::RenderWindow &window, sf::Event event) {
 
 void Word::update() {
     if (isHoverable && this->getState(HOVERED)) {
-        text.setFillColor(sf::Color::Blue);
+        text.setFillColor(hoverTextColor);
         setIsUnderlined(true);
     } else {
         text.setFillColor(defaultTextColor);
@@ -37,12 +35,11 @@ void Word::update() {
     }
 
     if (this->getState(CLICKED)) {
-        text.setFillColor(sf::Color::Red);
+        text.setFillColor(clickTextColor);
     }
 }
 
 void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
-    states.transform *= getTransform();
     window.draw(background, states);
     window.draw(text, states);
 }
@@ -56,7 +53,7 @@ void Word::applySnapshot(const Snapshot &snapshot) {
 }
 
 sf::FloatRect Word::getGlobalBounds() const {
-    return getTransform().transformRect(background.getGlobalBounds());
+    return background.getGlobalBounds();
 }
 
 void Word::setText(std::string text) {
@@ -66,15 +63,11 @@ void Word::setText(std::string text) {
 }
 
 void Word::resizeBackground() {
-    background.setPosition(text.getGlobalBounds().left,
-                           text.getGlobalBounds().top);
-    text.setPosition(text.getPosition().x + paddingLeft,
-                     text.getPosition().y + paddingTop);
+    background.setPosition(getPosition());
+    text.move(paddingLeft, paddingTop);
     background.setSize(
         {text.getGlobalBounds().width + paddingLeft + paddingRight,
          text.getGlobalBounds().height + paddingTop + paddingBottom});
-    std::cout << "Text: " << text.getGlobalBounds().width << std::endl;
-    std::cout << "Bg: " << background.getGlobalBounds().width << std::endl;
 }
 
 void Word::setIsHoverable(bool hoverable) { this->isHoverable = hoverable; }
@@ -98,7 +91,6 @@ void Word::addPadding(float padding) {
     paddingBottom = padding;
     paddingLeft = padding;
     paddingRight = padding;
-    adjustTextPosition();
     resizeBackground();
 }
 
@@ -111,8 +103,17 @@ void Word::setIsUnderlined(bool isUnderlined) {
 }
 
 void Word::adjustTextPosition() {
-    std::cout << text.getGlobalBounds().left - text.getPosition().x
-              << std::endl;
+    text.setPosition(getPosition());
     text.move(text.getPosition().x - text.getGlobalBounds().left,
               text.getPosition().y - text.getGlobalBounds().top);
+}
+
+void Word::setTextColor(const sf::Color &color) {
+    text.setFillColor(color);
+    defaultTextColor = color;
+}
+
+void Word::setBackgroundColor(const sf::Color &color) {
+    background.setFillColor(color);
+    defaultBackgroundColor = color;
 }

@@ -34,16 +34,40 @@ int main() {
     // input2->setSubmitBehavior(
     //     [&input2]() { input2->setLabel(input2->getString()); });
     // Application::push(input2);
-    //
+
     auto text = new Word();
     text->setText("Hello there");
     text->setIsHoverable(true);
-    // text->setPosition(10, 10);
-    text->addPadding(50);
-    Margin marginedText(text, 50);
-    Application::push(&marginedText);
-    std::cout << "Word left: " << text->getGlobalBounds().left << std::endl;
-    std::cout << "Word top: " << text->getGlobalBounds().top << std::endl;
+    text->addPadding(5);
+    text->setBackgroundColor(sf::Color::Red);
+    text->setTextColor(sf::Color::White);
+    Application::push(text);
+
+    auto text2 = new Word();
+    text2->setText("Bold text");
+    text2->setIsHoverable(true);
+    text2->addPadding(5);
+    text2->setBackgroundColor(sf::Color::Green);
+    text2->setTextColor(sf::Color::White);
+    text2->setFont(UBUNTU_B);
+    text2->setPosition(
+        text->getGlobalBounds().left + text->getGlobalBounds().width,
+        text->getGlobalBounds().top + text->getGlobalBounds().height);
+    text2->setCharacterSize(50);
+    Application::push(text2);
+
+    auto text3 = new Word();
+    text3->setText("Moreeeee");
+    text3->setIsHoverable(true);
+    text3->addPadding(20);
+    text3->setBackgroundColor(sf::Color::Yellow);
+    text3->setTextColor(sf::Color::White);
+    text3->setFont(UBUNTU_R);
+    text3->setPosition(
+        text2->getGlobalBounds().left + text2->getGlobalBounds().width,
+        text2->getGlobalBounds().top + text2->getGlobalBounds().height);
+    text3->setCharacterSize(150);
+    Application::push(text3);
 
     Application::run();
 

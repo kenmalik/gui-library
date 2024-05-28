@@ -38,12 +38,19 @@ class Word : public GuiComponent, public State {
 
     void addPadding(float padding);
 
+    void setTextColor(const sf::Color &color);
+    void setBackgroundColor(const sf::Color &color);
+
   private:
     sf::Text text;
     sf::RectangleShape background;
 
     sf::Color defaultTextColor = sf::Color::Black;
     sf::Color hoverTextColor = sf::Color::Blue;
+    sf::Color clickTextColor = sf::Color::Red;
+
+    sf::Color defaultBackgroundColor = sf::Color::Transparent;
+    sf::Color hoverBackgroundColor = sf::Color::White;
 
     float paddingTop = 0;
     float paddingBottom = 0;
