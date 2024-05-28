@@ -38,8 +38,12 @@ int main() {
     auto text = new Word();
     text->setText("Hello there");
     text->setIsHoverable(true);
+    // text->setPosition(10, 10);
     text->addPadding(50);
-    Application::push(text);
+    Margin marginedText(text, 50);
+    Application::push(&marginedText);
+    std::cout << "Word left: " << text->getGlobalBounds().left << std::endl;
+    std::cout << "Word top: " << text->getGlobalBounds().top << std::endl;
 
     Application::run();
 

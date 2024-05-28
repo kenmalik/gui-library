@@ -17,4 +17,6 @@ void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     GUIComponentDecorator::draw(window, states);
 }
 
-sf::FloatRect Margin::getGlobalBounds() const { return marginBounds; }
+sf::FloatRect Margin::getGlobalBounds() const {
+    return getTransform().transformRect(marginBounds);
+}

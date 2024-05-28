@@ -42,8 +42,8 @@ class Word : public GuiComponent, public State {
     sf::Text text;
     sf::RectangleShape background;
 
-    sf::Color defaultColor = sf::Color::Black;
-    sf::Color hoverColor = sf::Color::Blue;
+    sf::Color defaultTextColor = sf::Color::Black;
+    sf::Color hoverTextColor = sf::Color::Blue;
 
     float paddingTop = 0;
     float paddingBottom = 0;
@@ -53,6 +53,7 @@ class Word : public GuiComponent, public State {
     bool isHoverable = false;
 
     void resizeBackground();
+    void adjustTextPosition();
 
     Snapshot snapshot;
 };
