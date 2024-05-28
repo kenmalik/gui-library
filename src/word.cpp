@@ -1,7 +1,9 @@
 #include "word.h"
 #include "font-manager.h"
+#include "gui-component.h"
 #include "mouse-event.h"
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 Word::Word() : Word(UBUNTU_R) {}
 
@@ -86,11 +88,37 @@ void Word::setCharacterSize(unsigned int size) {
     resizeBackground();
 }
 
-void Word::addPadding(float padding) {
+void Word::setPadding(float padding) {
     paddingTop = padding;
     paddingBottom = padding;
     paddingLeft = padding;
     paddingRight = padding;
+    resizeBackground();
+}
+
+void Word::setPadding(float paddingTopBottom, float paddingLeftRight) {
+    paddingTop = paddingTopBottom;
+    paddingBottom = paddingTopBottom;
+    paddingLeft = paddingLeftRight;
+    paddingRight = paddingLeftRight;
+    resizeBackground();
+}
+
+void Word::setPadding(float paddingTop, float paddingLeftRight,
+                      float paddingBottom) {
+    this->paddingTop = paddingTop;
+    this->paddingBottom = paddingBottom;
+    paddingLeft = paddingLeftRight;
+    paddingRight = paddingLeftRight;
+    resizeBackground();
+}
+
+void Word::setPadding(float paddingTop, float paddingRight, float paddingBottom,
+                      float paddingLeft) {
+    this->paddingTop = paddingTop;
+    this->paddingBottom = paddingBottom;
+    this->paddingLeft = paddingLeft;
+    this->paddingRight = paddingRight;
     resizeBackground();
 }
 
@@ -116,4 +144,14 @@ void Word::setTextColor(const sf::Color &color) {
 void Word::setBackgroundColor(const sf::Color &color) {
     background.setFillColor(color);
     defaultBackgroundColor = color;
+}
+
+void Word::setPosition(float x, float y) {
+    GuiComponent::setPosition(x, y);
+    adjustTextPosition();
+    resizeBackground();
+}
+
+void Word::setPosition(const sf::Vector2f &position) {
+    setPosition(position.x, position.y);
 }

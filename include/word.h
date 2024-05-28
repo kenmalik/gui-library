@@ -36,10 +36,18 @@ class Word : public GuiComponent, public State {
     virtual void applySnapshot(const Snapshot &snapshot) override;
     virtual sf::FloatRect getGlobalBounds() const override;
 
-    void addPadding(float padding);
+    void setPadding(float padding);
+    void setPadding(float paddingTopBottom, float paddingLeftRight);
+    void setPadding(float paddingTop, float paddingLeftRight,
+                    float paddingBottom);
+    void setPadding(float paddingTop, float paddingRight, float paddingBottom,
+                    float paddingLeft);
 
     void setTextColor(const sf::Color &color);
     void setBackgroundColor(const sf::Color &color);
+
+    void setPosition(float x, float y);
+    void setPosition(const sf::Vector2f &position);
 
   private:
     sf::Text text;
