@@ -24,13 +24,12 @@ set(SOURCES
     src/color-manager.cpp
     src/history.cpp
     src/gui-component-decorator.cpp
-    src/margin.cpp
-    )
+    src/margin.cpp)
 add_library(gui-library ${SOURCES})
 
 add_subdirectory(test)
 
-target_include_directories(gui-library PRIVATE include)
+target_include_directories(gui-library PUBLIC include)
 
 target_link_libraries(gui-library PUBLIC sfml-graphics sfml-window sfml-system
                                          sfml-audio)
