@@ -1,4 +1,5 @@
 #include "application.h"
+#include "button.h"
 #include "color-manager.h"
 #include "font-enum.h"
 #include "margin.h"
@@ -8,6 +9,13 @@
 #include <iostream>
 
 int main() {
+    auto button = new Button();
+    button->setBackgroundColor(sf::Color::Green);
+    button->setText("Hello");
+    button->setSubmitBehavior(
+        []() { std::cout << "Hello, World!" << std::endl; });
+    button->setPosition({300, 300});
+    Application::push(button);
 
     auto input = new TextInput(UBUNTU_R);
     input->setBackgroundColor(ColorManager::getColor(SILVER));
