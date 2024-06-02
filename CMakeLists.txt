@@ -12,6 +12,8 @@ if(COMPILE_COMMANDS)
        "${PROJECT_SOURCE_DIR}/compile_commands.json" SYMBOLIC)
 endif()
 
+configure_file(gui-lib-conf.h.in gui-lib-conf.h)
+
 set(SOURCES
     src/application.cpp
     src/font-manager.cpp
@@ -29,7 +31,7 @@ add_library(gui-library ${SOURCES})
 
 add_subdirectory(test)
 
-target_include_directories(gui-library PUBLIC include)
+target_include_directories(gui-library PUBLIC include ${PROJECT_BINARY_DIR})
 
 target_link_libraries(gui-library PUBLIC sfml-graphics sfml-window sfml-system
                                          sfml-audio)
