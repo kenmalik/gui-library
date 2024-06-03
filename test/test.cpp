@@ -21,10 +21,28 @@ int main() {
     paddedButton->setBackgroundColor(sf::Color::Red);
     Application::push(paddedButton);
 
+    auto input = new TextInput();
+    auto paddedInput = new Padding(input, 30);
+    paddedInput->setBackgroundColor(sf::Color::Yellow);
+    Application::push(paddedInput);
+    std::cout << "Text Input:" << std::endl;
+    std::cout << "x: " << input->getGlobalBounds().left
+              << "\ny: " << input->getGlobalBounds().top << std::endl;
+
+    auto fakeInput = new Word();
+    fakeInput->setText("Should be");
+    fakeInput->setPosition(0, paddedInput->getGlobalBounds().top +
+                                  paddedInput->getGlobalBounds().height);
+    auto paddedFake = new Padding(fakeInput, 30);
+    paddedFake->setBackgroundColor(sf::Color::Yellow);
+    Application::push(paddedFake);
+
     auto text = new Word();
     text->setText("Hello there");
     text->setIsHoverable(true);
     text->setTextColor(sf::Color::Black);
+    text->setPosition(0, paddedFake->getGlobalBounds().top +
+                             paddedFake->getGlobalBounds().height);
     Application::push(text);
 
     auto text2 = new Word();

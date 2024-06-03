@@ -1,12 +1,15 @@
 #ifndef CS8_GUILIBRARY_TEXTINPUT_H
 #define CS8_GUILIBRARY_TEXTINPUT_H
 
+#include "color-enum.h"
+#include "color-manager.h"
 #include "font-enum.h"
 #include "gui-component.h"
 #include "snapshot.h"
 #include "states.h"
 #include "submittable.h"
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -15,7 +18,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
-#include <cstddef>
 #include <functional>
 #include <string>
 
@@ -27,9 +29,6 @@ class TextInput : public State, public GuiComponent, public Submitable {
     const sf::String &getString() const;
     void setString(const std::string &string);
 
-    const sf::String &getLabel() const;
-    void setLabel(const std::string &string);
-
     void draw(sf::RenderTarget &window, sf::RenderStates states) const override;
 
     void eventHandler(sf::RenderWindow &window, sf::Event event) override;
@@ -38,11 +37,10 @@ class TextInput : public State, public GuiComponent, public Submitable {
     Snapshot &getSnapshot() override;
     void applySnapshot(const Snapshot &snapshot) override;
 
-    void setBackgroundColor(const sf::Color &color);
-    void setPosition(sf::Vector2f position);
     void setSubmitBehavior(std::function<void()> submitBehavior);
 
     sf::FloatRect getGlobalBounds() const override;
+    sf::FloatRect getLocalBounds() const;
 
   private:
     static constexpr unsigned int BACKSPACE = 8;
@@ -55,18 +53,21 @@ class TextInput : public State, public GuiComponent, public Submitable {
     sf::Clock cursorTimer;
     bool isCursorVisible;
 
+    sf::Color defaultTextColor = sf::Color::Black;
+    sf::Color hoveredTextColor = ColorManager::getColor(DIMGREY);
+    sf::Color clickedTextColor = sf::Color::Blue;
+
+    sf::FloatRect boundingBox;
+
     size_t cursorIndex;
     sf::RectangleShape cursor;
 
-    sf::Text label;
     sf::Text text;
-    sf::RectangleShape background;
 
     Snapshot snapshot;
 
     void handleTextInput(unsigned int unicode);
     void moveCursor();
-    void moveTextBox();
 
     void submit() override;
     std::function<void()> submitBehavior;
