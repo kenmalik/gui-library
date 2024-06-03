@@ -46,9 +46,6 @@ class Word : public GuiComponent, public State {
     void setTextColor(const sf::Color &color);
     void setBackgroundColor(const sf::Color &color);
 
-    void setPosition(float x, float y);
-    void setPosition(const sf::Vector2f &position);
-
   private:
     sf::Text text;
     sf::RectangleShape background;

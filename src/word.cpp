@@ -1,6 +1,5 @@
 #include "word.h"
 #include "font-manager.h"
-#include "gui-component.h"
 #include "mouse-event.h"
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Transformable.hpp>
@@ -14,13 +13,13 @@ Word::Word(FontEnum font) {
 }
 
 void Word::eventHandler(sf::RenderWindow &window, sf::Event event) {
-    if (MouseEvent::isHovered(background.getGlobalBounds(), window)) {
+    if (MouseEvent::isHovered(getGlobalBounds(), window)) {
         this->enableState(HOVERED);
     } else {
         this->disableState(HOVERED);
     }
 
-    if (MouseEvent::isClicked(background.getGlobalBounds(), window)) {
+    if (MouseEvent::isClicked(getGlobalBounds(), window)) {
         this->enableState(CLICKED);
     } else {
         this->disableState(CLICKED);
@@ -42,6 +41,7 @@ void Word::update() {
 }
 
 void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
+    states.transform *= getTransform();
     window.draw(background, states);
     window.draw(text, states);
 }
@@ -55,7 +55,7 @@ void Word::applySnapshot(const Snapshot &snapshot) {
 }
 
 sf::FloatRect Word::getGlobalBounds() const {
-    return background.getGlobalBounds();
+    return getTransform().transformRect(background.getGlobalBounds());
 }
 
 void Word::setText(std::string text) {
@@ -144,14 +144,4 @@ void Word::setTextColor(const sf::Color &color) {
 void Word::setBackgroundColor(const sf::Color &color) {
     background.setFillColor(color);
     defaultBackgroundColor = color;
-}
-
-void Word::setPosition(float x, float y) {
-    GuiComponent::setPosition(x, y);
-    adjustTextPosition();
-    resizeBackground();
-}
-
-void Word::setPosition(const sf::Vector2f &position) {
-    setPosition(position.x, position.y);
 }

@@ -19,22 +19,23 @@ int main() {
     button->enableState(DISABLED);
     Application::push(button);
 
-    auto input = new TextInput(UBUNTU_R);
-    input->setBackgroundColor(ColorManager::getColor(SILVER));
-    // input->setPosition(
-    //     {Application::SCREEN_WIDTH / 3.f, Application::SCREEN_HEIGHT / 3.f});
-    input->setLabel("Label:");
-    input->setSubmitBehavior(
-        [&input]() { input->setLabel(input->getString()); });
-    Margin margin(input, 100.0f);
-    Application::push(&margin);
+    // auto input = new TextInput(UBUNTU_R);
+    // input->setBackgroundColor(ColorManager::getColor(SILVER));
+    // // input->setPosition(
+    // //     {Application::SCREEN_WIDTH / 3.f, Application::SCREEN_HEIGHT
+    // / 3.f}); input->setLabel("Label:"); input->setSubmitBehavior(
+    //     [&input]() { input->setLabel(input->getString()); });
+    // Margin margin(input, 100.0f);
+    // Application::push(&margin);
 
-    std::cout << margin.getGlobalBounds().left << std::endl;
-    std::cout << margin.getGlobalBounds().top << std::endl;
-    std::cout << margin.getGlobalBounds().left + margin.getGlobalBounds().width
-              << std::endl;
-    std::cout << margin.getGlobalBounds().top + margin.getGlobalBounds().height
-              << std::endl;
+    // std::cout << margin.getGlobalBounds().left << std::endl;
+    // std::cout << margin.getGlobalBounds().top << std::endl;
+    // std::cout << margin.getGlobalBounds().left +
+    // margin.getGlobalBounds().width
+    //           << std::endl;
+    // std::cout << margin.getGlobalBounds().top +
+    // margin.getGlobalBounds().height
+    //           << std::endl;
 
     // auto input2 = new TextInput(UBUNTU_R);
     // input2->setBackgroundColor(ColorManager::getColor(SILVER));
@@ -52,7 +53,16 @@ int main() {
     text->setPadding(5);
     text->setBackgroundColor(sf::Color::Red);
     text->setTextColor(sf::Color::White);
-    Application::push(text);
+    auto margin1 = new Margin(text, 10);
+    Application::push(margin1);
+    std::cout << "Word 1 bottom right:" << std::endl;
+    std::cout << "x: "
+              << margin1->getGlobalBounds().left +
+                     margin1->getGlobalBounds().width
+              << "\ny: "
+              << margin1->getGlobalBounds().top +
+                     margin1->getGlobalBounds().height
+              << std::endl;
 
     auto text2 = new Word();
     text2->setText("Bold text");
@@ -61,12 +71,20 @@ int main() {
     text2->setBackgroundColor(sf::Color::Green);
     text2->setTextColor(sf::Color::White);
     text2->setFont(UBUNTU_B);
-    text2->setPosition(
-        text->getGlobalBounds().left + text->getGlobalBounds().width,
-        text->getGlobalBounds().top + text->getGlobalBounds().height);
     text2->setCharacterSize(50);
+    text2->setPosition(
+        margin1->getGlobalBounds().left + margin1->getGlobalBounds().width,
+        margin1->getGlobalBounds().top + margin1->getGlobalBounds().height);
     Application::push(text2);
 
+    std::cout << "Word 2 top left (global bounds):" << std::endl;
+    std::cout << "x: " << text2->getGlobalBounds().left
+              << "\ny: " << text2->getGlobalBounds().top << std::endl;
+    std::cout << "Word 2 top left (position):" << std::endl;
+    std::cout << "x: " << text2->getPosition().x
+              << "\ny: " << text2->getPosition().y << std::endl;
+
+    std::cout << "Word 3" << std::endl;
     auto text3 = new Word();
     text3->setText("Moreeeee");
     text3->setIsHoverable(true);
@@ -99,7 +117,8 @@ int main() {
     text5->setFont(UBUNTU_R);
     text5->setPosition(0, text4->getGlobalBounds().top +
                               text4->getGlobalBounds().height);
-    Application::push(text5);
+    auto margin5 = new Margin(text5, 50);
+    Application::push(margin5);
 
     auto text6 = new Word();
     text6->setText("Text 6");
@@ -108,8 +127,8 @@ int main() {
     text6->setBackgroundColor(sf::Color::Green);
     text6->setTextColor(sf::Color::White);
     text6->setFont(UBUNTU_R);
-    text6->setPosition(0, text5->getGlobalBounds().top +
-                              text5->getGlobalBounds().height);
+    text6->setPosition(0, margin5->getGlobalBounds().top +
+                              margin5->getGlobalBounds().height);
     Application::push(text6);
 
     auto text7 = new Word();
@@ -121,7 +140,8 @@ int main() {
     text7->setFont(UBUNTU_R);
     text7->setPosition(0, text6->getGlobalBounds().top +
                               text6->getGlobalBounds().height);
-    Application::push(text7);
+    auto margin7 = new Margin(text7, 10);
+    Application::push(margin7);
 
     Application::run();
 
