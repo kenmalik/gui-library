@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
-project(Review_Project)
+project(GUI_Library)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-file(CREATE_LINK "${PROJECT_BINARY_DIR}/compile_commands.json"
-     "${PROJECT_SOURCE_DIR}/compile_commands.json" SYMBOLIC)
+option(COMPILE_COMMANDS "Export compile commands for lsp" OFF)
+
+if(COMPILE_COMMANDS)
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+  file(CREATE_LINK "${PROJECT_BINARY_DIR}/compile_commands.json"
+       "${PROJECT_SOURCE_DIR}/compile_commands.json" SYMBOLIC)
+endif()
+
+configure_file(gui-lib-conf.h.in gui-lib-conf.h)
 
 set(SOURCES
-    src/main.cpp
     src/application.cpp
     src/font-manager.cpp
     src/word.cpp
@@ -20,13 +25,17 @@ set(SOURCES
     src/keyboard-shortcuts.cpp
     src/color-manager.cpp
     src/history.cpp
-)
-add_executable(Main ${SOURCES})
+    src/gui-component-decorator.cpp
+    src/margin.cpp
+    src/button.cpp)
+add_library(gui-library ${SOURCES})
 
-target_include_directories(Main PRIVATE include)
+add_subdirectory(test)
 
-target_link_libraries(Main PUBLIC sfml-graphics sfml-window sfml-system
-                                  sfml-audio)
+target_include_directories(gui-library PUBLIC include ${PROJECT_BINARY_DIR})
+
+target_link_libraries(gui-library PUBLIC sfml-graphics sfml-window sfml-system
+                                         sfml-audio)
 
 find_package(
   SFML 2.5

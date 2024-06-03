@@ -6,6 +6,7 @@
 #include "mouse-event.h"
 #include "state-enum.h"
 
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -46,20 +47,26 @@ void TextInput::setString(const std::string &string) {
 }
 
 void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
-    if (MouseEvent::isHovered(background.getGlobalBounds(), window)) {
+    if (MouseEvent::isHovered(
+            getTransform().transformRect(background.getGlobalBounds()),
+            window)) {
         this->enableState(HOVERED);
     } else {
         this->disableState(HOVERED);
     }
 
-    if (MouseEvent::isClicked(background.getGlobalBounds(), window)) {
+    if (MouseEvent::isClicked(
+            getTransform().transformRect(background.getGlobalBounds()),
+            window)) {
         this->enableState(CLICKED);
         this->enableState(FOCUSED);
     } else {
         this->disableState(CLICKED);
     }
 
-    if (MouseEvent::isClickedOff(background.getGlobalBounds(), window)) {
+    if (MouseEvent::isClickedOff(
+            getTransform().transformRect(background.getGlobalBounds()),
+            window)) {
         this->disableState(FOCUSED);
     }
 
@@ -128,11 +135,12 @@ void TextInput::update() {
 }
 
 void TextInput::draw(sf::RenderTarget &window, sf::RenderStates states) const {
-    window.draw(label);
-    window.draw(background);
-    window.draw(text);
+    states.transform *= getTransform();
+    window.draw(label, states);
+    window.draw(background, states);
+    window.draw(text, states);
     if (this->getState(FOCUSED) && isCursorVisible) {
-        window.draw(cursor);
+        window.draw(cursor, states);
     }
 }
 
@@ -180,4 +188,12 @@ const sf::String &TextInput::getLabel() const { return label.getString(); }
 
 void TextInput::setSubmitBehavior(std::function<void()> submitBehavior) {
     this->submitBehavior = submitBehavior;
+}
+
+sf::FloatRect TextInput::getGlobalBounds() const {
+    sf::FloatRect localBounds(
+        label.getGlobalBounds().left, background.getGlobalBounds().top,
+        label.getGlobalBounds().width + background.getGlobalBounds().width,
+        background.getGlobalBounds().height);
+    return getTransform().transformRect(localBounds);
 }

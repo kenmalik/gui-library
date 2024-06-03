@@ -24,7 +24,7 @@ void Application::run() {
             i->update();
         }
 
-        window.clear();
+        window.clear(sf::Color::White);
         for (GuiComponent *&i : components) {
             window.draw(*i);
         }

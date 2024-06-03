@@ -1,4 +1,5 @@
 #include "font-manager.h"
+#include "gui-lib-conf.h"
 
 std::map<FontEnum, sf::Font> FontManager::fonts;
 
@@ -16,12 +17,16 @@ void FontManager::loadFont(FontEnum font) {
 }
 
 std::string FontManager::getFontPath(FontEnum font) {
+    std::string fontFile;
     switch (font) {
     case UBUNTU_R:
-        return "../fonts/Ubuntu-R.ttf";
+        fontFile = "Ubuntu-R.ttf";
+        break;
     case UBUNTU_B:
-        return "../fonts/Ubuntu-B.ttf";
+        fontFile = "Ubuntu-B.ttf";
+        break;
     default:
         exit(28);
     }
+    return FONT_DIR_PATH + fontFile;
 }
