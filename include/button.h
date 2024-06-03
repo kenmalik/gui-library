@@ -1,6 +1,7 @@
 #ifndef CS8_GUILIBRARY_BUTTON_H
 #define CS8_GUILIBRARY_BUTTON_H
 
+#include "color-manager.h"
 #include "font-enum.h"
 #include "gui-component.h"
 #include "snapshot.h"
@@ -9,8 +10,6 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -37,18 +36,17 @@ class Button : public State, public GuiComponent, public Submitable {
     Snapshot &getSnapshot() override;
     void applySnapshot(const Snapshot &snapshot) override;
 
-    void setBackgroundColor(const sf::Color &color);
-    void setPosition(sf::Vector2f position);
     void setSubmitBehavior(std::function<void()> submitBehavior);
 
     sf::FloatRect getGlobalBounds() const override;
 
   private:
-    sf::Color defaultButtonColor = sf::Color::Black;
     sf::Color defaultTextColor = sf::Color::White;
+    sf::Color disabledTextColor = ColorManager::getColor(DIMGREY);
+    sf::Color hoveredTextColor = ColorManager::getColor(DIMGREY);
+    sf::Color clickedTextColor = sf::Color::Blue;
 
     sf::Text text;
-    sf::RectangleShape background;
 
     Snapshot snapshot;
 
