@@ -31,7 +31,7 @@ int main() {
     text2->setText("Hello there");
     text2->setIsHoverable(true);
     text2->setTextColor(sf::Color::Black);
-    auto pad2 = new Padding(text2, 10);
+    auto pad2 = new Padding(text2, 10, 50);
     pad2->setBackgroundColor(sf::Color::Red);
     pad2->setPosition(0, text->getGlobalBounds().top +
                              text->getGlobalBounds().height);
@@ -41,11 +41,11 @@ int main() {
     text3->setText("Hello there");
     text3->setIsHoverable(true);
     text3->setTextColor(sf::Color::Black);
-    auto pad3 = new Padding(text3, 10);
+    auto pad3 = new Padding(text3, 10, 30);
     pad3->setBackgroundColor(sf::Color::Green);
     pad3->setPosition(0, pad2->getGlobalBounds().top +
                              pad2->getGlobalBounds().height);
-    auto margin3 = new Margin(pad3, 50);
+    auto margin3 = new Margin(pad3, 30, 50);
     Application::push(margin3);
 
     Application::run();

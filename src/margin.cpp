@@ -3,14 +3,29 @@
 #include <SFML/Graphics/Rect.hpp>
 
 Margin::Margin(GuiComponent *component, float margin)
-    : GUIComponentDecorator(component), marginTop(margin), marginBottom(margin),
-      marginLeft(margin), marginRight(margin) {
+    : Margin(component, margin, margin, margin, margin) {}
+
+Margin::Margin(GuiComponent *component, float marginTopBottom,
+               float marginLeftRight)
+    : Margin(component, marginTopBottom, marginLeftRight, marginTopBottom,
+             marginLeftRight) {}
+
+Margin::Margin(GuiComponent *component, float marginTop, float marginLeftRight,
+               float marginBottom)
+    : Margin(component, marginTop, marginLeftRight, marginBottom,
+             marginLeftRight) {}
+
+Margin::Margin(GuiComponent *component, float marginTop, float marginRight,
+               float marginBottom, float marginLeft)
+    : GUIComponentDecorator(component), marginTop(marginTop),
+      marginBottom(marginBottom), marginLeft(marginLeft),
+      marginRight(marginRight) {
     marginBounds = sf::FloatRect(
         component->getGlobalBounds().left, component->getGlobalBounds().top,
-        margin * 2 + component->getGlobalBounds().width,
-        margin * 2 + component->getGlobalBounds().height);
-    component->setPosition(component->getPosition().x + margin,
-                           component->getPosition().y + margin);
+        marginLeft + marginRight + component->getGlobalBounds().width,
+        marginTop + marginBottom + component->getGlobalBounds().height);
+    component->setPosition(component->getPosition().x + marginLeft,
+                           component->getPosition().y + marginTop);
 }
 
 void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {

@@ -1,16 +1,32 @@
 #include "padding.h"
+#include "gui-component-decorator.h"
 
 Padding::Padding(GuiComponent *component, float padding)
-    : GUIComponentDecorator(component), paddingTop(padding),
-      paddingBottom(padding), paddingLeft(padding), paddingRight(padding) {
-    paddingBounds =
-        sf::RectangleShape({padding * 2 + component->getGlobalBounds().width,
-                            padding * 2 + component->getGlobalBounds().height});
+    : Padding(component, padding, padding, padding, padding) {}
+
+Padding::Padding(GuiComponent *component, float paddingTopBottom,
+                 float paddingLeftRight)
+    : Padding(component, paddingTopBottom, paddingLeftRight, paddingTopBottom,
+              paddingLeftRight) {}
+
+Padding::Padding(GuiComponent *component, float paddingTop,
+                 float paddingLeftRight, float paddingBottom)
+    : Padding(component, paddingTop, paddingLeftRight, paddingBottom,
+              paddingLeftRight) {}
+
+Padding::Padding(GuiComponent *component, float paddingTop, float paddingRight,
+                 float paddingBottom, float paddingLeft)
+    : GUIComponentDecorator(component), paddingTop(paddingTop),
+      paddingBottom(paddingBottom), paddingLeft(paddingLeft),
+      paddingRight(paddingRight) {
+    paddingBounds = sf::RectangleShape(
+        {paddingLeft + paddingRight + component->getGlobalBounds().width,
+         paddingTop + paddingBottom + component->getGlobalBounds().height});
     paddingBounds.setPosition(component->getGlobalBounds().left,
                               component->getGlobalBounds().top);
     paddingBounds.setFillColor(defaultFillColor);
-    component->setPosition(component->getPosition().x + padding,
-                           component->getPosition().y + padding);
+    component->setPosition(component->getPosition().x + paddingLeft,
+                           component->getPosition().y + paddingTop);
 }
 
 void Padding::draw(sf::RenderTarget &window, sf::RenderStates states) const {
