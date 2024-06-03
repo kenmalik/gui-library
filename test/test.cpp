@@ -1,7 +1,5 @@
 #include "application.h"
 #include "button.h"
-#include "color-manager.h"
-#include "font-enum.h"
 #include "margin.h"
 #include "padding.h"
 #include "state-enum.h"
@@ -12,7 +10,6 @@
 
 int main() {
     auto button = new Button();
-    button->setBackgroundColor(sf::Color::Transparent);
     button->setText("Say Hello");
     button->setSubmitBehavior(
         []() { std::cout << "Hello, World!" << std::endl; });
@@ -65,6 +62,19 @@ int main() {
                              pad2->getGlobalBounds().height);
     auto margin3 = new Margin(pad3, 30, 50);
     Application::push(margin3);
+
+    auto disableButton = new Button();
+    disableButton->setText("Disable");
+    disableButton->setSubmitBehavior([&input, &button]() {
+        input->enableState(DISABLED);
+        button->enableState(DISABLED);
+    });
+    disableButton->setPosition(
+        {button->getGlobalBounds().left,
+         button->getGlobalBounds().top + button->getGlobalBounds().height});
+    auto paddedDisableButton = new Padding(disableButton, 10);
+    paddedDisableButton->setBackgroundColor(sf::Color::Red);
+    Application::push(paddedDisableButton);
 
     Application::run();
 

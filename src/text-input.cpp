@@ -31,6 +31,10 @@ void TextInput::setString(const std::string &string) {
 }
 
 void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
+    if (this->getState(DISABLED)) {
+        return;
+    }
+
     if (MouseEvent::isHovered(getGlobalBounds(), window)) {
         this->enableState(HOVERED);
     } else {
@@ -93,6 +97,11 @@ void TextInput::handleTextInput(unsigned int unicode) {
 }
 
 void TextInput::update() {
+    if (this->getState(DISABLED)) {
+        text.setFillColor(disabledTextColor);
+        return;
+    }
+
     if (this->getState(HOVERED)) {
         text.setFillColor(hoveredTextColor);
     } else {
@@ -115,7 +124,8 @@ void TextInput::update() {
 void TextInput::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     states.transform *= getTransform();
     window.draw(text, states);
-    if (this->getState(FOCUSED) && isCursorVisible) {
+    if (!this->getState(DISABLED) && this->getState(FOCUSED) &&
+        isCursorVisible) {
         window.draw(cursor, states);
     }
 }

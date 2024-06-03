@@ -54,6 +54,7 @@ class TextInput : public State, public GuiComponent, public Submitable {
     bool isCursorVisible;
 
     sf::Color defaultTextColor = sf::Color::Black;
+    sf::Color disabledTextColor = ColorManager::getColor(DIMGREY);
     sf::Color hoveredTextColor = ColorManager::getColor(DIMGREY);
     sf::Color clickedTextColor = sf::Color::Blue;
 
