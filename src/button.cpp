@@ -32,6 +32,10 @@ void Button::setPosition(sf::Vector2f position) {
 }
 
 void Button::eventHandler(sf::RenderWindow &window, sf::Event event) {
+    if (getState(DISABLED)) {
+        return;
+    }
+
     if (MouseEvent::isHovered(
             getTransform().transformRect(background.getGlobalBounds()),
             window)) {
@@ -66,6 +70,10 @@ void Button::update() {
 
     if (this->getState(CLICKED)) {
         background.setFillColor(sf::Color::Red);
+    }
+
+    if (this->getState(DISABLED)) {
+        background.setFillColor(ColorManager::getColor(DIMGREY));
     }
 }
 

@@ -3,6 +3,7 @@
 #include "color-manager.h"
 #include "font-enum.h"
 #include "margin.h"
+#include "state-enum.h"
 #include "text-input.h"
 #include "word.h"
 #include <SFML/Graphics/Color.hpp>
@@ -11,10 +12,11 @@
 int main() {
     auto button = new Button();
     button->setBackgroundColor(sf::Color::Green);
-    button->setText("Hello");
+    button->setText("Say Hello");
     button->setSubmitBehavior(
         []() { std::cout << "Hello, World!" << std::endl; });
     button->setPosition({300, 300});
+    button->enableState(DISABLED);
     Application::push(button);
 
     auto input = new TextInput(UBUNTU_R);
