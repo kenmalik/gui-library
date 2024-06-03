@@ -9,7 +9,6 @@ Word::Word() : Word(UBUNTU_R) {}
 Word::Word(FontEnum font) {
     text.setFont(FontManager::getFont(font));
     text.setFillColor(defaultTextColor);
-    background.setFillColor(defaultBackgroundColor);
 }
 
 void Word::eventHandler(sf::RenderWindow &window, sf::Event event) {
@@ -42,7 +41,6 @@ void Word::update() {
 
 void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     states.transform *= getTransform();
-    window.draw(background, states);
     window.draw(text, states);
 }
 
@@ -51,25 +49,15 @@ Snapshot &Word::getSnapshot() { return snapshot; }
 void Word::applySnapshot(const Snapshot &snapshot) {
     text.setString(snapshot.getData());
     adjustTextPosition();
-    resizeBackground();
 }
 
 sf::FloatRect Word::getGlobalBounds() const {
-    return getTransform().transformRect(background.getGlobalBounds());
+    return getTransform().transformRect(text.getGlobalBounds());
 }
 
 void Word::setText(std::string text) {
     this->text.setString(text);
     adjustTextPosition();
-    resizeBackground();
-}
-
-void Word::resizeBackground() {
-    background.setPosition(getPosition());
-    text.move(paddingLeft, paddingTop);
-    background.setSize(
-        {text.getGlobalBounds().width + paddingLeft + paddingRight,
-         text.getGlobalBounds().height + paddingTop + paddingBottom});
 }
 
 void Word::setIsHoverable(bool hoverable) { this->isHoverable = hoverable; }
@@ -79,47 +67,11 @@ bool Word::getIsHoverable() const { return isHoverable; }
 void Word::setFont(FontEnum font) {
     text.setFont(FontManager::getFont(font));
     adjustTextPosition();
-    resizeBackground();
 }
 
 void Word::setCharacterSize(unsigned int size) {
     text.setCharacterSize(size);
     adjustTextPosition();
-    resizeBackground();
-}
-
-void Word::setPadding(float padding) {
-    paddingTop = padding;
-    paddingBottom = padding;
-    paddingLeft = padding;
-    paddingRight = padding;
-    resizeBackground();
-}
-
-void Word::setPadding(float paddingTopBottom, float paddingLeftRight) {
-    paddingTop = paddingTopBottom;
-    paddingBottom = paddingTopBottom;
-    paddingLeft = paddingLeftRight;
-    paddingRight = paddingLeftRight;
-    resizeBackground();
-}
-
-void Word::setPadding(float paddingTop, float paddingLeftRight,
-                      float paddingBottom) {
-    this->paddingTop = paddingTop;
-    this->paddingBottom = paddingBottom;
-    paddingLeft = paddingLeftRight;
-    paddingRight = paddingLeftRight;
-    resizeBackground();
-}
-
-void Word::setPadding(float paddingTop, float paddingRight, float paddingBottom,
-                      float paddingLeft) {
-    this->paddingTop = paddingTop;
-    this->paddingBottom = paddingBottom;
-    this->paddingLeft = paddingLeft;
-    this->paddingRight = paddingRight;
-    resizeBackground();
 }
 
 void Word::setIsUnderlined(bool isUnderlined) {
@@ -139,9 +91,4 @@ void Word::adjustTextPosition() {
 void Word::setTextColor(const sf::Color &color) {
     text.setFillColor(color);
     defaultTextColor = color;
-}
-
-void Word::setBackgroundColor(const sf::Color &color) {
-    background.setFillColor(color);
-    defaultBackgroundColor = color;
 }
