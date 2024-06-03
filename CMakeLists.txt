@@ -27,7 +27,8 @@ set(SOURCES
     src/history.cpp
     src/gui-component-decorator.cpp
     src/margin.cpp
-    src/button.cpp)
+    src/button.cpp
+    src/padding.cpp)
 add_library(gui-library ${SOURCES})
 
 add_subdirectory(test)

@@ -14,6 +14,7 @@ Margin::Margin(GuiComponent *component, float margin)
 }
 
 void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {
+    states.transform *= getTransform();
     GUIComponentDecorator::draw(window, states);
 }
 

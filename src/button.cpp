@@ -106,5 +106,6 @@ void Button::setTextSize(unsigned int size) { text.setCharacterSize(size); }
 void Button::setTextColor(const sf::Color &color) { text.setFillColor(color); }
 
 void Button::setBackgroundColor(const sf::Color &color) {
+    defaultButtonColor = color;
     background.setFillColor(color);
 }
