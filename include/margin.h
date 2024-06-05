@@ -19,6 +19,9 @@ class Margin : public GUIComponentDecorator {
 
     sf::FloatRect getGlobalBounds() const override;
 
+    sf::FloatRect getHitbox() const override;
+    void setHitboxBehavior(std::function<sf::FloatRect()>) override;
+
   private:
     float marginTop;
     float marginBottom;

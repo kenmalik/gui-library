@@ -35,20 +35,20 @@ void TextInput::eventHandler(sf::RenderWindow &window, sf::Event event) {
         return;
     }
 
-    if (MouseEvent::isHovered(getGlobalBounds(), window)) {
+    if (MouseEvent::isHovered(getHitbox(), window)) {
         this->enableState(HOVERED);
     } else {
         this->disableState(HOVERED);
     }
 
-    if (MouseEvent::isClicked(getGlobalBounds(), window)) {
+    if (MouseEvent::isClicked(getHitbox(), window)) {
         this->enableState(CLICKED);
         this->enableState(FOCUSED);
     } else {
         this->disableState(CLICKED);
     }
 
-    if (MouseEvent::isClickedOff(getGlobalBounds(), window)) {
+    if (MouseEvent::isClickedOff(getHitbox(), window)) {
         this->disableState(FOCUSED);
     }
 
@@ -153,4 +153,11 @@ void TextInput::setSubmitBehavior(std::function<void()> submitBehavior) {
 
 sf::FloatRect TextInput::getGlobalBounds() const {
     return getTransform().transformRect(boundingBox);
+}
+
+sf::FloatRect TextInput::getHitbox() const { return hitboxBehavior(); }
+
+void TextInput::setHitboxBehavior(
+    std::function<sf::FloatRect()> hitboxBehavior) {
+    this->hitboxBehavior = hitboxBehavior;
 }

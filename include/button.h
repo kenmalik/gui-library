@@ -10,6 +10,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -40,6 +41,9 @@ class Button : public State, public GuiComponent, public Submitable {
 
     sf::FloatRect getGlobalBounds() const override;
 
+    sf::FloatRect getHitbox() const override;
+    void setHitboxBehavior(std::function<sf::FloatRect()>) override;
+
   private:
     sf::Color defaultTextColor = sf::Color::White;
     sf::Color disabledTextColor = ColorManager::getColor(DIMGREY);
@@ -51,7 +55,11 @@ class Button : public State, public GuiComponent, public Submitable {
     Snapshot snapshot;
 
     void submit() override;
-    std::function<void()> submitBehavior;
+    std::function<void()> submitBehavior = []() {};
+    std::function<sf::FloatRect()> hitboxBehavior =
+        std::bind(&Button::getHitbox, this);
+
+    void adjustTextPosition();
 };
 
 #endif // !CS8_GUILIBRARY_BUTTON_H

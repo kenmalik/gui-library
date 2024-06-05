@@ -92,3 +92,9 @@ void Word::setTextColor(const sf::Color &color) {
     text.setFillColor(color);
     defaultTextColor = color;
 }
+
+sf::FloatRect Word::getHitbox() const { return hitboxBehavior(); }
+
+void Word::setHitboxBehavior(std::function<sf::FloatRect()> hitboxBehavior) {
+    this->hitboxBehavior = hitboxBehavior;
+}

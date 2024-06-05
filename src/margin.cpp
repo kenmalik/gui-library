@@ -36,3 +36,7 @@ void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {
 sf::FloatRect Margin::getGlobalBounds() const {
     return getTransform().transformRect(marginBounds);
 }
+
+sf::FloatRect Margin::getHitbox() const { return component->getGlobalBounds(); }
+
+void Margin::setHitboxBehavior(std::function<sf::FloatRect()>) {}

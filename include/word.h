@@ -6,10 +6,12 @@
 #include "states.h"
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
+#include <functional>
 
 class Word : public GuiComponent, public State {
   public:
@@ -39,6 +41,9 @@ class Word : public GuiComponent, public State {
     void setTextColor(const sf::Color &color);
     void setBackgroundColor(const sf::Color &color);
 
+    sf::FloatRect getHitbox() const override;
+    void setHitboxBehavior(std::function<sf::FloatRect()>) override;
+
   private:
     sf::Text text;
 
@@ -51,6 +56,9 @@ class Word : public GuiComponent, public State {
     void adjustTextPosition();
 
     Snapshot snapshot;
+
+    std::function<sf::FloatRect()> hitboxBehavior =
+        std::bind(&Word::getGlobalBounds, this);
 };
 
 #endif // !CS8_GUILIBRARY_WORD_H

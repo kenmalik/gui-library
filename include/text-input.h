@@ -42,6 +42,9 @@ class TextInput : public State, public GuiComponent, public Submitable {
     sf::FloatRect getGlobalBounds() const override;
     sf::FloatRect getLocalBounds() const;
 
+    void setHitboxBehavior(std::function<sf::FloatRect()>) override;
+    sf::FloatRect getHitbox() const override;
+
   private:
     static constexpr unsigned int BACKSPACE = 8;
     static constexpr unsigned int DEL = 127;
@@ -71,7 +74,9 @@ class TextInput : public State, public GuiComponent, public Submitable {
     void moveCursor();
 
     void submit() override;
-    std::function<void()> submitBehavior;
+    std::function<void()> submitBehavior = []() {};
+    std::function<sf::FloatRect()> hitboxBehavior =
+        std::bind(&TextInput::getGlobalBounds, this);
 };
 
 #endif // !CS8_GUILIBRARY_TEXTINPUT_H

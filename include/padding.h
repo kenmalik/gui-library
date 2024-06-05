@@ -3,7 +3,9 @@
 
 #include "gui-component-decorator.h"
 #include "gui-component.h"
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <functional>
 
 class Padding : public GUIComponentDecorator {
   public:
@@ -20,6 +22,9 @@ class Padding : public GUIComponentDecorator {
 
     sf::FloatRect getGlobalBounds() const override;
 
+    void setHitboxBehavior(std::function<sf::FloatRect()>) override;
+    sf::FloatRect getHitbox() const override;
+
   private:
     float paddingTop;
     float paddingBottom;
@@ -28,6 +33,9 @@ class Padding : public GUIComponentDecorator {
 
     GuiComponent *component;
     sf::RectangleShape paddingBounds;
+
+    std::function<sf::FloatRect()> hitboxBehavior =
+        std::bind(&Padding::getGlobalBounds, this);
 
     sf::Color defaultFillColor = sf::Color::Transparent;
 };

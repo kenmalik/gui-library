@@ -22,11 +22,11 @@ Padding::Padding(GuiComponent *component, float paddingTop, float paddingRight,
     paddingBounds = sf::RectangleShape(
         {paddingLeft + paddingRight + component->getGlobalBounds().width,
          paddingTop + paddingBottom + component->getGlobalBounds().height});
-    paddingBounds.setPosition(component->getGlobalBounds().left,
-                              component->getGlobalBounds().top);
+    paddingBounds.setPosition(component->getPosition());
     paddingBounds.setFillColor(defaultFillColor);
     component->setPosition(component->getPosition().x + paddingLeft,
                            component->getPosition().y + paddingTop);
+    component->setHitboxBehavior(std::bind(&Padding::getGlobalBounds, this));
 }
 
 void Padding::draw(sf::RenderTarget &window, sf::RenderStates states) const {
@@ -41,4 +41,10 @@ sf::FloatRect Padding::getGlobalBounds() const {
 
 void Padding::setBackgroundColor(const sf::Color &color) {
     paddingBounds.setFillColor(color);
+}
+
+sf::FloatRect Padding::getHitbox() const { return hitboxBehavior(); }
+
+void Padding::setHitboxBehavior(std::function<sf::FloatRect()> hitboxBehavior) {
+    this->hitboxBehavior = hitboxBehavior;
 }
