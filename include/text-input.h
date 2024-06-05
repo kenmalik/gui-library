@@ -5,6 +5,7 @@
 #include "color-manager.h"
 #include "font-enum.h"
 #include "gui-component.h"
+#include "snapshot-interface.h"
 #include "snapshot.h"
 #include "states.h"
 #include "submittable.h"
@@ -21,7 +22,10 @@
 #include <functional>
 #include <string>
 
-class TextInput : public State, public GuiComponent, public Submitable {
+class TextInput : public State,
+                  public GuiComponent,
+                  public Submitable,
+                  public SnapshotInterface {
   public:
     TextInput();
     TextInput(FontEnum font, sf::Vector2f size = {360, 30});

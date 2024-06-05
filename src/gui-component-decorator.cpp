@@ -14,11 +14,3 @@ void GUIComponentDecorator::eventHandler(sf::RenderWindow &window,
 }
 
 void GUIComponentDecorator::update() { component->update(); }
-
-Snapshot &GUIComponentDecorator::getSnapshot() {
-    return component->getSnapshot();
-}
-
-void GUIComponentDecorator::applySnapshot(const Snapshot &snapshot) {
-    component->applySnapshot(snapshot);
-}

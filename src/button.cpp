@@ -70,10 +70,6 @@ void Button::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     window.draw(text, states);
 }
 
-Snapshot &Button::getSnapshot() { return snapshot; }
-
-void Button::applySnapshot(const Snapshot &snapshot) {}
-
 void Button::submit() { submitBehavior(); }
 
 void Button::setSubmitBehavior(std::function<void()> submitBehavior) {

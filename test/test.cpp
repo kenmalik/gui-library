@@ -1,5 +1,6 @@
 #include "application.h"
 #include "button.h"
+#include "composite-gui-component.h"
 #include "margin.h"
 #include "padding.h"
 #include "state-enum.h"
@@ -87,7 +88,7 @@ int main() {
                                     paddedButton->getGlobalBounds().height});
     auto paddedDisableButton = new Padding(disableButton, 10);
     paddedDisableButton->setBackgroundColor(sf::Color::Red);
-    auto marginedDisable = new Margin(paddedDisableButton, 10);
+    auto marginedDisable = new Margin(paddedDisableButton, 20, 80);
     std::cout << "Padded Disable (top left):" << std::endl;
     std::cout << "x: " << paddedDisableButton->getGlobalBounds().left
               << "\ny: " << paddedDisableButton->getGlobalBounds().top
@@ -95,7 +96,36 @@ int main() {
     std::cout << "Margined Disable (top left):" << std::endl;
     std::cout << "x: " << marginedDisable->getGlobalBounds().left
               << "\ny: " << marginedDisable->getGlobalBounds().top << std::endl;
-    Application::push(marginedDisable);
+
+    auto words = new Word();
+    words->setText("Click above");
+    words->setPosition(marginedDisable->getGlobalBounds().left,
+                       marginedDisable->getGlobalBounds().top +
+                           marginedDisable->getGlobalBounds().height);
+    auto marginWords = new Margin(words, 10, 80);
+
+    auto moreWords = new Word();
+    moreWords->setText("More words");
+    moreWords->setPosition(marginWords->getGlobalBounds().left,
+                           marginWords->getGlobalBounds().top +
+                               marginWords->getGlobalBounds().height);
+    auto marginMoreWords = new Margin(moreWords, 0, 80);
+
+    auto composite = new CompositeGUIComponent();
+    composite->addChild(marginedDisable);
+    composite->addChild(marginWords);
+    composite->addChild(marginMoreWords);
+    std::cout << "Composite" << std::endl;
+    std::cout << "x: " << composite->getGlobalBounds().left
+              << "\ny: " << composite->getGlobalBounds().top << std::endl;
+    // Application::push(composite);
+
+    auto padComposite = new Padding(composite, 20, 80);
+    padComposite->setBackgroundColor(sf::Color::Green);
+    // Application::push(padComposite);
+
+    auto marginComposite = new Margin(padComposite, 20, 80);
+    Application::push(marginComposite);
 
     Application::run();
 

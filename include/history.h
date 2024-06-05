@@ -3,6 +3,7 @@
 
 #include "history-node.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 #include <stack>
 
 class History {

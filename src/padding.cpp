@@ -22,7 +22,8 @@ Padding::Padding(GuiComponent *component, float paddingTop, float paddingRight,
     paddingBounds = sf::RectangleShape(
         {paddingLeft + paddingRight + component->getGlobalBounds().width,
          paddingTop + paddingBottom + component->getGlobalBounds().height});
-    paddingBounds.setPosition(component->getPosition());
+    paddingBounds.setPosition(component->getGlobalBounds().left,
+                              component->getGlobalBounds().top);
     paddingBounds.setFillColor(defaultFillColor);
     component->setPosition(component->getPosition().x + paddingLeft,
                            component->getPosition().y + paddingTop);

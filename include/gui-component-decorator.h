@@ -12,9 +12,6 @@ class GUIComponentDecorator : public GuiComponent {
     void eventHandler(sf::RenderWindow &window, sf::Event event) override;
     void update() override;
 
-    Snapshot &getSnapshot() override;
-    void applySnapshot(const Snapshot &snapshot) override;
-
     GuiComponent *component;
 };
 

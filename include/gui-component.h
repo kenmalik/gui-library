@@ -3,7 +3,6 @@
 
 #include "bounded.h"
 #include "event-hander.h"
-#include "snapshot-interface.h"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -14,7 +13,6 @@
 
 class GuiComponent : public sf::Drawable,
                      public EventHandler,
-                     public SnapshotInterface,
                      public sf::Transformable,
                      public Bounded {
   public:
@@ -25,8 +23,6 @@ class GuiComponent : public sf::Drawable,
                               sf::Event event) override = 0;
     virtual void update() override = 0;
 
-    virtual Snapshot &getSnapshot() override = 0;
-    virtual void applySnapshot(const Snapshot &snapshot) override = 0;
     virtual sf::FloatRect getGlobalBounds() const override = 0;
     virtual void setHitboxBehavior(std::function<sf::FloatRect()>) = 0;
     virtual sf::FloatRect getHitbox() const = 0;

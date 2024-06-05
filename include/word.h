@@ -34,8 +34,6 @@ class Word : public GuiComponent, public State {
     virtual void draw(sf::RenderTarget &window,
                       sf::RenderStates states) const override;
 
-    virtual Snapshot &getSnapshot() override;
-    virtual void applySnapshot(const Snapshot &snapshot) override;
     virtual sf::FloatRect getGlobalBounds() const override;
 
     void setTextColor(const sf::Color &color);
@@ -54,8 +52,6 @@ class Word : public GuiComponent, public State {
     bool isHoverable = false;
 
     void adjustTextPosition();
-
-    Snapshot snapshot;
 
     std::function<sf::FloatRect()> hitboxBehavior =
         std::bind(&Word::getGlobalBounds, this);

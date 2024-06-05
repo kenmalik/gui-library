@@ -44,13 +44,6 @@ void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
     window.draw(text, states);
 }
 
-Snapshot &Word::getSnapshot() { return snapshot; }
-
-void Word::applySnapshot(const Snapshot &snapshot) {
-    text.setString(snapshot.getData());
-    adjustTextPosition();
-}
-
 sf::FloatRect Word::getGlobalBounds() const {
     return getTransform().transformRect(text.getGlobalBounds());
 }

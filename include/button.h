@@ -34,9 +34,6 @@ class Button : public State, public GuiComponent, public Submitable {
     void eventHandler(sf::RenderWindow &window, sf::Event event) override;
     void update() override;
 
-    Snapshot &getSnapshot() override;
-    void applySnapshot(const Snapshot &snapshot) override;
-
     void setSubmitBehavior(std::function<void()> submitBehavior);
 
     sf::FloatRect getGlobalBounds() const override;
