@@ -9,7 +9,18 @@
 #include <SFML/Graphics/Color.hpp>
 #include <iostream>
 
+void originalTest();
+void compositeTest();
+
 int main() {
+    compositeTest();
+
+    Application::run();
+
+    return 0;
+}
+
+void originalTest() {
     auto button = new Button();
     button->setText("Say Hello");
     button->setSubmitBehavior(
@@ -133,8 +144,31 @@ int main() {
          iter++) {
         std::cout << "Top: " << (*iter)->getGlobalBounds().top << std::endl;
     }
+}
 
-    Application::run();
+void compositeTest() {
+    auto composite = new CompositeGUIComponent();
 
-    return 0;
+    auto word0 = new Word();
+    word0->setText("Hello from word 0");
+    word0->setPosition(0, 0);
+
+    auto word1 = new Word();
+    word1->setText("Hello from word 1");
+    word1->setPosition(0, 50);
+
+    auto word2 = new Word();
+    word2->setText("Hello from word 2");
+    word2->setPosition(0, 100);
+
+    auto word3 = new Word();
+    word3->setText("Hello from word 3");
+    word3->setPosition(0, 150);
+
+    composite->addChild(word0);
+    composite->addChild(word1);
+    composite->addChild(word2);
+    composite->addChild(word3);
+
+    Application::push(composite);
 }
