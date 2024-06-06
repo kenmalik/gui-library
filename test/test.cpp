@@ -127,6 +127,13 @@ int main() {
     auto marginComposite = new Margin(padComposite, 20, 80);
     Application::push(marginComposite);
 
+    std::cout << "Child iterator test" << std::endl;
+    CompositeGUIComponent::childIterator iter;
+    for (iter = composite->childrenBegin(); iter != composite->childrenEnd();
+         iter++) {
+        std::cout << "Top: " << (*iter)->getGlobalBounds().top << std::endl;
+    }
+
     Application::run();
 
     return 0;

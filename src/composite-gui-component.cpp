@@ -77,3 +77,11 @@ void CompositeGUIComponent::setHitboxBehavior(
     std::function<sf::FloatRect()> hitboxBehavior) {
     this->hitboxBehavior = hitboxBehavior;
 }
+
+CompositeGUIComponent::childIterator CompositeGUIComponent::childrenBegin() {
+    return children.begin();
+}
+
+CompositeGUIComponent::childIterator CompositeGUIComponent::childrenEnd() {
+    return children.end();
+}

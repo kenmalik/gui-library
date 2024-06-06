@@ -8,6 +8,8 @@
 
 class CompositeGUIComponent : public GuiComponent {
   public:
+    typedef std::vector<GuiComponent *>::iterator childIterator;
+
     CompositeGUIComponent();
 
     void draw(sf::RenderTarget &window, sf::RenderStates states) const override;
@@ -20,6 +22,9 @@ class CompositeGUIComponent : public GuiComponent {
     virtual sf::FloatRect getHitbox() const override;
 
     void addChild(GuiComponent *component);
+
+    childIterator childrenBegin();
+    childIterator childrenEnd();
 
   private:
     std::vector<GuiComponent *> children;
