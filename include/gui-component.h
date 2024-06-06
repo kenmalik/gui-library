@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <functional>
 
@@ -26,6 +27,9 @@ class GuiComponent : public sf::Drawable,
     virtual sf::FloatRect getGlobalBounds() const override = 0;
     virtual void setHitboxBehavior(std::function<sf::FloatRect()>) = 0;
     virtual sf::FloatRect getHitbox() const = 0;
+
+    virtual sf::Transform getParentTransfrom() const = 0;
+    virtual void setParentTransfrom(const sf::Transform &transform) = 0;
 };
 
 #endif // CS8_GUILIBRARY_GUICOMPONENT_H

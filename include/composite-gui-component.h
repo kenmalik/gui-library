@@ -3,6 +3,7 @@
 
 #include "gui-component.h"
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <functional>
 #include <vector>
 
@@ -26,11 +27,19 @@ class CompositeGUIComponent : public GuiComponent {
     childIterator childrenBegin();
     childIterator childrenEnd();
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
+    sf::Transform parentTransform = sf::Transform::Identity;
+
     std::vector<GuiComponent *> children;
 
     std::function<sf::FloatRect()> hitboxBehavior =
         std::bind(&CompositeGUIComponent::getGlobalBounds, this);
+
+    sf::FloatRect getChildBounds() const;
+    sf::Transform getTotalTransform() const;
 };
 
 #endif // !CS8_GUILIBRARY_COMPOSITEGUICOMPONENT_H

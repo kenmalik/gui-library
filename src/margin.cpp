@@ -40,3 +40,9 @@ sf::FloatRect Margin::getGlobalBounds() const {
 sf::FloatRect Margin::getHitbox() const { return component->getGlobalBounds(); }
 
 void Margin::setHitboxBehavior(std::function<sf::FloatRect()>) {}
+
+sf::Transform Margin::getParentTransfrom() const { return parentTransform; }
+
+void Margin::setParentTransfrom(const sf::Transform &transform) {
+    parentTransform = transform;
+}

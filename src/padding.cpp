@@ -49,3 +49,9 @@ sf::FloatRect Padding::getHitbox() const { return hitboxBehavior(); }
 void Padding::setHitboxBehavior(std::function<sf::FloatRect()> hitboxBehavior) {
     this->hitboxBehavior = hitboxBehavior;
 }
+
+sf::Transform Padding::getParentTransfrom() const { return parentTransform; }
+
+void Padding::setParentTransfrom(const sf::Transform &transform) {
+    parentTransform = transform;
+}

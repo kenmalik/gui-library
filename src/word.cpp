@@ -2,6 +2,7 @@
 #include "font-manager.h"
 #include "mouse-event.h"
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 
 Word::Word() : Word(UBUNTU_R) {}
@@ -45,7 +46,7 @@ void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
 }
 
 sf::FloatRect Word::getGlobalBounds() const {
-    return getTransform().transformRect(text.getGlobalBounds());
+    return getTotalTransform().transformRect(text.getGlobalBounds());
 }
 
 void Word::setText(std::string text) {
@@ -90,4 +91,14 @@ sf::FloatRect Word::getHitbox() const { return hitboxBehavior(); }
 
 void Word::setHitboxBehavior(std::function<sf::FloatRect()> hitboxBehavior) {
     this->hitboxBehavior = hitboxBehavior;
+}
+
+sf::Transform Word::getParentTransfrom() const { return parentTransform; }
+
+void Word::setParentTransfrom(const sf::Transform &transform) {
+    parentTransform = transform;
+}
+
+sf::Transform Word::getTotalTransform() const {
+    return getTransform() * parentTransform;
 }

@@ -25,7 +25,12 @@ class Padding : public GUIComponentDecorator {
     void setHitboxBehavior(std::function<sf::FloatRect()>) override;
     sf::FloatRect getHitbox() const override;
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
+    sf::Transform parentTransform = sf::Transform::Identity;
+
     float paddingTop;
     float paddingBottom;
     float paddingLeft;

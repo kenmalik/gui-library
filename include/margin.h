@@ -22,7 +22,12 @@ class Margin : public GUIComponentDecorator {
     sf::FloatRect getHitbox() const override;
     void setHitboxBehavior(std::function<sf::FloatRect()>) override;
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
+    sf::Transform parentTransform = sf::Transform::Identity;
+
     float marginTop;
     float marginBottom;
     float marginLeft;

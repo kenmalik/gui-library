@@ -10,6 +10,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Window/Event.hpp>
 #include <functional>
 
@@ -42,7 +43,12 @@ class Word : public GuiComponent, public State {
     sf::FloatRect getHitbox() const override;
     void setHitboxBehavior(std::function<sf::FloatRect()>) override;
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
+    sf::Transform parentTransform = sf::Transform::Identity;
+
     sf::Text text;
 
     sf::Color defaultTextColor = sf::Color::Black;
@@ -55,6 +61,8 @@ class Word : public GuiComponent, public State {
 
     std::function<sf::FloatRect()> hitboxBehavior =
         std::bind(&Word::getGlobalBounds, this);
+
+    sf::Transform getTotalTransform() const;
 };
 
 #endif // !CS8_GUILIBRARY_WORD_H
