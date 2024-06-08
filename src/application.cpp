@@ -1,6 +1,7 @@
 #include "application.h"
 #include "gui-component.h"
 #include "history.h"
+#include <iostream>
 
 std::vector<Word> Application::words;
 std::vector<GuiComponent *> Application::components;

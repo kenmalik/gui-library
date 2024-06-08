@@ -24,6 +24,9 @@ void CompositeGUIComponent::eventHandler(sf::RenderWindow &window,
 
 void CompositeGUIComponent::update() {
     for (auto &child : children) {
+        if (child->getParentTransfrom() != getTotalTransform()) {
+            child->setParentTransfrom(getTotalTransform());
+        }
         child->update();
     }
 }

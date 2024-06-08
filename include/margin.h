@@ -25,6 +25,8 @@ class Margin : public GUIComponentDecorator {
     sf::Transform getParentTransfrom() const override;
     void setParentTransfrom(const sf::Transform &transform) override;
 
+    void update() override;
+
   private:
     sf::Transform parentTransform = sf::Transform::Identity;
 
@@ -33,8 +35,9 @@ class Margin : public GUIComponentDecorator {
     float marginLeft;
     float marginRight;
 
-    GuiComponent *component;
     sf::FloatRect marginBounds;
+
+    sf::Transform getTotalTransform() const;
 };
 
 #endif // !CS8_GUILIBRARY_MARGIN_H

@@ -14,6 +14,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <functional>
@@ -41,7 +42,12 @@ class Button : public State, public GuiComponent, public Submitable {
     sf::FloatRect getHitbox() const override;
     void setHitboxBehavior(std::function<sf::FloatRect()>) override;
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
+    sf::Transform parentTransform = sf::Transform::Identity;
+
     sf::Color defaultTextColor = sf::Color::White;
     sf::Color disabledTextColor = ColorManager::getColor(DIMGREY);
     sf::Color hoveredTextColor = ColorManager::getColor(DIMGREY);
@@ -54,9 +60,11 @@ class Button : public State, public GuiComponent, public Submitable {
     void submit() override;
     std::function<void()> submitBehavior = []() {};
     std::function<sf::FloatRect()> hitboxBehavior =
-        std::bind(&Button::getHitbox, this);
+        std::bind(&Button::getGlobalBounds, this);
 
     void adjustTextPosition();
+
+    sf::Transform getTotalTransform() const;
 };
 
 #endif // !CS8_GUILIBRARY_BUTTON_H

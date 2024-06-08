@@ -5,7 +5,6 @@
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include <iostream>
 
 Button::Button() : Button(UBUNTU_R, {128, 64}) {}
 
@@ -20,8 +19,6 @@ void Button::adjustTextPosition() {
     text.setPosition(getPosition());
     text.move(text.getPosition().x - text.getGlobalBounds().left,
               text.getPosition().y - text.getGlobalBounds().top);
-    std::cout << "Adjustment: "
-              << text.getPosition().y - text.getGlobalBounds().top << std::endl;
 }
 
 void Button::eventHandler(sf::RenderWindow &window, sf::Event event) {
@@ -77,7 +74,7 @@ void Button::setSubmitBehavior(std::function<void()> submitBehavior) {
 }
 
 sf::FloatRect Button::getGlobalBounds() const {
-    return getTransform().transformRect(text.getGlobalBounds());
+    return getTotalTransform().transformRect(text.getGlobalBounds());
 }
 
 void Button::setText(const std::string &string) {
@@ -89,10 +86,23 @@ const sf::String &Button::getText() const { return text.getString(); }
 
 void Button::setTextSize(unsigned int size) { text.setCharacterSize(size); }
 
-void Button::setTextColor(const sf::Color &color) { text.setFillColor(color); }
+void Button::setTextColor(const sf::Color &color) {
+    defaultTextColor = color;
+    text.setFillColor(color);
+}
 
 sf::FloatRect Button::getHitbox() const { return hitboxBehavior(); }
 
 void Button::setHitboxBehavior(std::function<sf::FloatRect()> hitboxBehavior) {
     this->hitboxBehavior = hitboxBehavior;
+}
+
+sf::Transform Button::getParentTransfrom() const { return parentTransform; }
+
+void Button::setParentTransfrom(const sf::Transform &transform) {
+    parentTransform = transform;
+}
+
+sf::Transform Button::getTotalTransform() const {
+    return getTransform() * parentTransform;
 }

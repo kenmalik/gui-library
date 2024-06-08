@@ -1,5 +1,7 @@
 #include "application.h"
 #include "button.h"
+#include "color-enum.h"
+#include "color-manager.h"
 #include "composite-gui-component.h"
 #include "margin.h"
 #include "padding.h"
@@ -11,9 +13,11 @@
 
 // void originalTest();
 void compositeTest();
+void buttonTest();
 
 int main() {
-    compositeTest();
+    // compositeTest();
+    buttonTest();
 
     Application::run();
 
@@ -187,15 +191,62 @@ void compositeTest() {
     compositeComposite->addChild(marginComposite);
     compositeComposite->addChild(word4);
 
-    // compositeComposite->setPosition(50, 50);
-
     auto padCompositeComposite = new Padding(compositeComposite, 20);
     padCompositeComposite->setBackgroundColor(sf::Color::Yellow);
 
     auto marginPCC = new Margin(padCompositeComposite, 50, 100);
     auto padMPCC = new Padding(marginPCC, 100, 50);
     padMPCC->setBackgroundColor(sf::Color::Blue);
-    padMPCC->setPosition(50, 50);
 
-    Application::push(padMPCC);
+    auto padPMPCC = new Padding(padMPCC, 50);
+    padPMPCC->setBackgroundColor(sf::Color::Red);
+
+    auto padPPMPCC = new Padding(padPMPCC, 50);
+    padPPMPCC->setBackgroundColor(ColorManager::getColor(DIMGREY));
+    padPPMPCC->setPosition(0, 100);
+
+    Application::push(padPPMPCC);
+}
+
+void buttonTest() {
+    std::cout << "Running button test" << std::endl;
+
+    auto button1 = new Button();
+    button1->setText("Say Hello");
+    button1->setSubmitBehavior(
+        []() { std::cout << "Hello World!" << std::endl; });
+    button1->setTextColor(sf::Color::Black);
+
+    auto padButton1 = new Padding(button1, 20, 100);
+    padButton1->setBackgroundColor(sf::Color::Green);
+
+    auto button2 = new Button();
+    button2->setText("Say Goodbye");
+    button2->setSubmitBehavior(
+        []() { std::cout << "Goodbye World!" << std::endl; });
+    button2->setTextColor(sf::Color::Black);
+    button2->setPosition(padButton1->getGlobalBounds().left,
+                         padButton1->getGlobalBounds().top +
+                             padButton1->getGlobalBounds().height);
+
+    auto padButton2 = new Padding(button2, 20, 100);
+    padButton2->setBackgroundColor(sf::Color::Green);
+
+    auto composite = new CompositeGUIComponent();
+    composite->addChild(padButton1);
+    composite->addChild(padButton2);
+
+    auto padComposite = new Padding(composite, 50);
+    padComposite->setBackgroundColor(sf::Color::Yellow);
+
+    // std::cout << "Button 1 Globals: (" << button1->getGlobalBounds().left
+    //           << ", " << button1->getGlobalBounds().top << ")" << std::endl;
+    // std::cout << "Pad Button 1 Globals: (" <<
+    // padButton1->getGlobalBounds().left
+    //           << ", " << padButton1->getGlobalBounds().top << ")" <<
+    //           std::endl;
+
+    auto marginPadComposite = new Margin(padComposite, 20);
+
+    Application::push(marginPadComposite);
 }

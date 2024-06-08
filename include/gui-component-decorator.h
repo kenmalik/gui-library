@@ -12,7 +12,7 @@ class GUIComponentDecorator : public GuiComponent {
     void eventHandler(sf::RenderWindow &window, sf::Event event) override;
     void update() override;
 
-    GuiComponent *component;
+    GuiComponent *component = nullptr;
 };
 
 #endif // !CS8_GUILIBRARY_GUICOMPONENTDECORATOR_H

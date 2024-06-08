@@ -27,6 +27,7 @@ Padding::Padding(GuiComponent *component, float paddingTop, float paddingRight,
     paddingBounds.setFillColor(defaultFillColor);
     component->setPosition(component->getPosition().x + paddingLeft,
                            component->getPosition().y + paddingTop);
+    component->setParentTransfrom(getTransform());
     component->setHitboxBehavior(std::bind(&Padding::getGlobalBounds, this));
 }
 
@@ -37,7 +38,7 @@ void Padding::draw(sf::RenderTarget &window, sf::RenderStates states) const {
 }
 
 sf::FloatRect Padding::getGlobalBounds() const {
-    return getTransform().transformRect(paddingBounds.getGlobalBounds());
+    return getTotalTransform().transformRect(paddingBounds.getGlobalBounds());
 }
 
 void Padding::setBackgroundColor(const sf::Color &color) {
@@ -54,4 +55,15 @@ sf::Transform Padding::getParentTransfrom() const { return parentTransform; }
 
 void Padding::setParentTransfrom(const sf::Transform &transform) {
     parentTransform = transform;
+}
+
+sf::Transform Padding::getTotalTransform() const {
+    return getTransform() * parentTransform;
+}
+
+void Padding::update() {
+    if (component && component->getParentTransfrom() != getTotalTransform()) {
+        component->setParentTransfrom(getTotalTransform());
+    }
+    GUIComponentDecorator::update();
 }

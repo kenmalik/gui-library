@@ -26,6 +26,7 @@ Margin::Margin(GuiComponent *component, float marginTop, float marginRight,
         marginTop + marginBottom + component->getGlobalBounds().height);
     component->setPosition(component->getPosition().x + marginLeft,
                            component->getPosition().y + marginTop);
+    component->setParentTransfrom(getTotalTransform());
 }
 
 void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {
@@ -34,7 +35,7 @@ void Margin::draw(sf::RenderTarget &window, sf::RenderStates states) const {
 }
 
 sf::FloatRect Margin::getGlobalBounds() const {
-    return getTransform().transformRect(marginBounds);
+    return getTotalTransform().transformRect(marginBounds);
 }
 
 sf::FloatRect Margin::getHitbox() const { return component->getGlobalBounds(); }
@@ -45,4 +46,15 @@ sf::Transform Margin::getParentTransfrom() const { return parentTransform; }
 
 void Margin::setParentTransfrom(const sf::Transform &transform) {
     parentTransform = transform;
+}
+
+sf::Transform Margin::getTotalTransform() const {
+    return getTransform() * parentTransform;
+}
+
+void Margin::update() {
+    if (component && component->getParentTransfrom() != getTotalTransform()) {
+        component->setParentTransfrom(getTotalTransform());
+    }
+    GUIComponentDecorator::update();
 }

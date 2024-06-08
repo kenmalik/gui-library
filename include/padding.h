@@ -28,6 +28,8 @@ class Padding : public GUIComponentDecorator {
     sf::Transform getParentTransfrom() const override;
     void setParentTransfrom(const sf::Transform &transform) override;
 
+    void update() override;
+
   private:
     sf::Transform parentTransform = sf::Transform::Identity;
 
@@ -36,13 +38,14 @@ class Padding : public GUIComponentDecorator {
     float paddingLeft;
     float paddingRight;
 
-    GuiComponent *component;
     sf::RectangleShape paddingBounds;
 
     std::function<sf::FloatRect()> hitboxBehavior =
         std::bind(&Padding::getGlobalBounds, this);
 
     sf::Color defaultFillColor = sf::Color::Transparent;
+
+    sf::Transform getTotalTransform() const;
 };
 
 #endif // !CS8_GUILIBRARY_PADDING_H
