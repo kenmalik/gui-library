@@ -102,3 +102,5 @@ sf::FloatRect CompositeGUIComponent::getChildBounds() const {
 sf::Transform CompositeGUIComponent::getTotalTransform() const {
     return getTransform() * parentTransform;
 }
+
+bool CompositeGUIComponent::childrenEmpty() const { return children.empty(); }

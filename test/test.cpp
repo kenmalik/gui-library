@@ -3,6 +3,7 @@
 #include "color-enum.h"
 #include "color-manager.h"
 #include "composite-gui-component.h"
+#include "font-enum.h"
 #include "margin.h"
 #include "padding.h"
 #include "state-enum.h"
@@ -13,11 +14,13 @@
 
 // void originalTest();
 void compositeTest();
+void compositeMovingTest();
 void buttonTest();
 
 int main() {
     // compositeTest();
-    buttonTest();
+    // buttonTest();
+    compositeMovingTest();
 
     Application::run();
 
@@ -248,5 +251,23 @@ void buttonTest() {
 
     auto marginPadComposite = new Margin(padComposite, 20);
 
+    marginPadComposite->setPosition(50, 50);
+
     Application::push(marginPadComposite);
+}
+
+void compositeMovingTest() {
+    auto header = new Word(UBUNTU_B);
+    header->setText("Header");
+    auto paragraph = new Word(UBUNTU_R);
+    paragraph->setText("Paragraph");
+
+    auto composite = new CompositeGUIComponent();
+    composite->addChild(header);
+    composite->addChild(paragraph);
+
+    paragraph->setPosition(0, header->getGlobalBounds().top +
+                                  header->getGlobalBounds().height);
+
+    Application::push(composite);
 }
