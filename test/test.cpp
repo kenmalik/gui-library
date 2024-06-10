@@ -10,6 +10,7 @@
 #include "text-input.h"
 #include "word.h"
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 
 // void originalTest();
@@ -257,17 +258,36 @@ void buttonTest() {
 }
 
 void compositeMovingTest() {
-    auto header = new Word(UBUNTU_B);
-    header->setText("Header");
-    auto paragraph = new Word(UBUNTU_R);
-    paragraph->setText("Paragraph");
+    int currentY = 50;
+
+    auto testBlock = new Word();
+    testBlock->setText("Start here");
+    testBlock->setPosition(0, currentY - testBlock->getGlobalBounds().height);
+    Application::push(testBlock);
 
     auto composite = new CompositeGUIComponent();
+    auto header = new Word(UBUNTU_B);
+    header->setText("Header");
     composite->addChild(header);
+    auto paragraph = new Word(UBUNTU_R);
+    paragraph->setText("Paragraph");
     composite->addChild(paragraph);
 
-    paragraph->setPosition(0, header->getGlobalBounds().top +
-                                  header->getGlobalBounds().height);
+    header->setPosition(header->getPosition().x, currentY);
+    currentY += header->getGlobalBounds().height;
+    paragraph->setPosition(paragraph->getPosition().x, currentY);
+    currentY += paragraph->getGlobalBounds().height;
+    std::cout << "Before reset:\nx: " << composite->getPosition().x
+              << "\ny: " << composite->getPosition().y << std::endl;
+    composite->resetOrigin();
+    std::cout << "After reset:\nx: " << composite->getPosition().x
+              << "\ny: " << composite->getPosition().y << std::endl;
+    std::cout << "Child:\n"
+              << "x: " << header->getGlobalBounds().left
+              << "\ny: " << header->getGlobalBounds().top << std::endl;
 
-    Application::push(composite);
+    auto padC = new Padding(composite, 10);
+    padC->setBackgroundColor(sf::Color::Yellow);
+
+    Application::push(padC);
 }

@@ -31,6 +31,8 @@ class CompositeGUIComponent : public GuiComponent {
     sf::Transform getParentTransfrom() const override;
     void setParentTransfrom(const sf::Transform &transform) override;
 
+    void resetOrigin();
+
   private:
     sf::Transform parentTransform = sf::Transform::Identity;
 

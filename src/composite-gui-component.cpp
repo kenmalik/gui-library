@@ -25,6 +25,7 @@ void CompositeGUIComponent::eventHandler(sf::RenderWindow &window,
 void CompositeGUIComponent::update() {
     for (auto &child : children) {
         if (child->getParentTransfrom() != getTotalTransform()) {
+            std::cout << "Resetting parent transform" << std::endl;
             child->setParentTransfrom(getTotalTransform());
         }
         child->update();
@@ -104,3 +105,13 @@ sf::Transform CompositeGUIComponent::getTotalTransform() const {
 }
 
 bool CompositeGUIComponent::childrenEmpty() const { return children.empty(); }
+
+void CompositeGUIComponent::resetOrigin() {
+    sf::Vector2f previous = {getGlobalBounds().left, getGlobalBounds().top};
+    setOrigin(getGlobalBounds().left, getGlobalBounds().top);
+    setPosition(previous);
+    for (auto child : children) {
+        child->setParentTransfrom(child->getParentTransfrom() *
+                                  getTransform().getInverse());
+    }
+}
