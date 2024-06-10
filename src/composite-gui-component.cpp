@@ -114,3 +114,5 @@ void CompositeGUIComponent::resetOrigin() {
                                   getTransform().getInverse());
     }
 }
+
+int CompositeGUIComponent::getChildCount() const { return children.size(); }

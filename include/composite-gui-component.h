@@ -27,6 +27,7 @@ class CompositeGUIComponent : public GuiComponent {
     childIterator childrenBegin();
     childIterator childrenEnd();
     bool childrenEmpty() const;
+    int getChildCount() const;
 
     sf::Transform getParentTransfrom() const override;
     void setParentTransfrom(const sf::Transform &transform) override;
