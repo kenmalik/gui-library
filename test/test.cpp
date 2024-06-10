@@ -17,11 +17,13 @@
 void compositeTest();
 void compositeMovingTest();
 void buttonTest();
+void textInputTest();
 
 int main() {
     // compositeTest();
     // buttonTest();
-    compositeMovingTest();
+    // compositeMovingTest();
+    textInputTest();
 
     Application::run();
 
@@ -290,4 +292,22 @@ void compositeMovingTest() {
     padC->setBackgroundColor(sf::Color::Yellow);
 
     Application::push(padC);
+}
+
+void textInputTest() {
+    auto textInput = new TextInput();
+    auto padding = new Padding(textInput, 20, 50);
+    padding->setBackgroundColor(sf::Color::Yellow);
+    auto textInput2 = new TextInput();
+    auto padding2 = new Padding(textInput2, 20, 50);
+    padding2->setBackgroundColor(sf::Color::Yellow);
+    padding2->setPosition(padding->getPosition().x,
+                          padding->getGlobalBounds().top +
+                              padding->getGlobalBounds().height);
+
+    auto inputComposite = new CompositeGUIComponent();
+    inputComposite->addChild(padding);
+    inputComposite->addChild(padding2);
+
+    Application::push(inputComposite);
 }

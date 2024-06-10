@@ -17,6 +17,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <functional>
@@ -49,6 +50,9 @@ class TextInput : public State,
     void setHitboxBehavior(std::function<sf::FloatRect()>) override;
     sf::FloatRect getHitbox() const override;
 
+    sf::Transform getParentTransfrom() const override;
+    void setParentTransfrom(const sf::Transform &transform) override;
+
   private:
     static constexpr unsigned int BACKSPACE = 8;
     static constexpr unsigned int DEL = 127;
@@ -64,6 +68,8 @@ class TextInput : public State,
     sf::Color disabledTextColor = ColorManager::getColor(DIMGREY);
     sf::Color hoveredTextColor = ColorManager::getColor(DIMGREY);
     sf::Color clickedTextColor = sf::Color::Blue;
+
+    sf::Transform parentTransform = sf::Transform::Identity;
 
     sf::FloatRect boundingBox;
 

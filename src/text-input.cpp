@@ -161,3 +161,9 @@ void TextInput::setHitboxBehavior(
     std::function<sf::FloatRect()> hitboxBehavior) {
     this->hitboxBehavior = hitboxBehavior;
 }
+
+sf::Transform TextInput::getParentTransfrom() const { return parentTransform; }
+
+void TextInput::setParentTransfrom(const sf::Transform &transform) {
+    parentTransform = transform;
+}
