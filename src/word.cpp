@@ -41,7 +41,8 @@ void Word::update() {
 }
 
 void Word::draw(sf::RenderTarget &window, sf::RenderStates states) const {
-    window.draw(text, getTotalTransform());
+    states.transform *= getTransform();
+    window.draw(text, states);
 }
 
 sf::FloatRect Word::getGlobalBounds() const {

@@ -25,7 +25,6 @@ void CompositeGUIComponent::eventHandler(sf::RenderWindow &window,
 void CompositeGUIComponent::update() {
     for (auto &child : children) {
         if (child->getParentTransfrom() != getTotalTransform()) {
-            std::cout << "Resetting parent transform" << std::endl;
             child->setParentTransfrom(getTotalTransform());
         }
         child->update();
