@@ -8,6 +8,7 @@
 class ColorManager {
   public:
     static std::map<ColorEnum, sf::Color> colors;
+    static sf::Color &getColor(std::string color);
     static sf::Color &getColor(ColorEnum color);
     static void loadColor(ColorEnum color);
     static sf::Color &getColorRGBA(ColorEnum color);
