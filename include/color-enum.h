@@ -25,9 +25,12 @@ enum ColorEnum {
 };
 
 static const std::map<std::string, ColorEnum> COLOR_MAP = {
-    {"silver", SILVER},
-    {"dimgrey", DIMGREY},
-    {"ghostwhite", GHOSTWHITE},
-    {"yellow", YELLOW}};
+    {"silver", SILVER},   {"dimgrey", DIMGREY}, {"ghostwhite", GHOSTWHITE},
+    {"yellow", YELLOW},   {"maroon", MAROON},   {"red", RED},
+    {"white", WHITE},     {"purple", PURPLE},   {"gray", GRAY},
+    {"fuchsia", FUCHSIA}, {"green", GREEN},     {"lime", LIME},
+    {"olive", OLIVE},     {"navy", NAVY},       {"blue", BLUE},
+    {"teal", TEAL},       {"aqua", AQUA},
+};
 
 #endif // !CS8_GUILIBRARY_COLORENUM_H
